@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Great South Run 2026 — Training Plan</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/nosleep.js/0.12.0/NoSleep.min.js"></script>
 <style>
   :root {
     --bg: #f4f5f7;
@@ -534,7 +533,7 @@
   <div class="header-top">
     <h1>Great South Run 2026</h1>
     <span class="header-badge" style="background:rgba(255,255,255,0.2);color:#fff">Sub 1:20 target</span>
-    <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.4);font-family:monospace;align-self:flex-start;padding-top:2px">v1.9</span>
+    <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.4);font-family:monospace;align-self:flex-start;padding-top:2px">v1.10</span>
   </div>
   <div class="header-meta">
     <span class="pace-chip">Easy <span>9:00/mi</span></span>
@@ -1117,34 +1116,43 @@ function saveSettings() {
   try { localStorage.setItem('gsr2026_settings', JSON.stringify(settings)); } catch(e) {}
 }
 
-// ── keep screen on (NoSleep.js) ──────────────────────────────────────────────
-let noSleep = null;
+// ── keep screen on (inline video loop hack) ──────────────────────────────────
+// Most reliable method on Android Chrome / GitHub Pages
+// Plays a 1x1 invisible looping video — prevents screen sleep
 
-function initNoSleep() {
-  if (!noSleep && typeof NoSleep !== 'undefined') {
-    noSleep = new NoSleep();
-  }
+let _wakeVideo = null;
+
+function _createWakeVideo() {
+  if (_wakeVideo) return _wakeVideo;
+  const v = document.createElement('video');
+  v.setAttribute('playsinline', '');
+  v.setAttribute('muted', '');
+  v.setAttribute('loop', '');
+  v.style.cssText = 'position:fixed;top:-1px;left:-1px;width:1px;height:1px;opacity:0.01;pointer-events:none;z-index:-1';
+  // Tiny valid MP4 encoded as base64 (1x1 black pixel, ~100 bytes)
+  v.src = 'data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28ybXA0MQAAAAhmcmVlAAAAGm1kYXQAAAGzABAHAAABthADAowdbb9/AAAC6W1vb3YAAABsbXZoZAAAAADaAiuS2gIrkgAAAkAAAAFsAAEAAAEAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAIVdHJhawAAAFx0a2hkAAAAD9oCK5LaAiuSAAAAAQAAAAAAAAFsAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAQAAAAAABAAAAASAAAAAAACRlZHRzAAAAHGVsc3QAAAAAAAAAAQAAoSAAAAQAAAEAAAAAiW1kaWEAAAAgbWRoZAAAAADaAiuS2gIrkgAAQAAAACzVxAAAAAAAKWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABWaWRlb0hhbmRsZXIAAAABJG1pbmYAAAAUdm1oZAAAAAEAAAAAAAAAAAAAACRkaW5mAAAAHGRyZWYAAAAAAAAAAQAAAAx1cmwgAAAAAQAAAORzdGJsAAAAfHN0c2QAAAAAAAAAAQAAAGxhdmMxAAAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACNzdHRzAAAAAAAAAAEAAAABAAAABAAAABxzdHNjAAAAAAAAAAEAAAABAAAABAAAAQAAABRzdHN6AAAAAAAAAAAAAAAAAAAAAQAAAAxzdGNvAAAAAAAAAAEAAAAkAAAAYXVkdGEAAABZbWV0YQAAAAAAAAAhaGRscgAAAAAAAAAAbWRpcmFwcGwAAAAAAAAAAAAAAAAsaWxzdAAAACSpdG9vAAAAHGRhdGEAAAABAAAAAExhdmY1OC43Ni4xMDA=';
+  document.body.appendChild(v);
+  _wakeVideo = v;
+  return v;
 }
 
-// Must be called synchronously inside a user gesture (tap)
 function enableNoSleep() {
   if (!settings.screenWakeLock) return;
-  initNoSleep();
-  if (noSleep) {
-    noSleep.enable();
-    console.log('NoSleep enabled');
-  }
+  try {
+    const v = _createWakeVideo();
+    const p = v.play();
+    if (p) p.catch(() => {});
+  } catch(e) {}
 }
 
 function disableNoSleep() {
-  if (noSleep) {
-    noSleep.disable();
-    console.log('NoSleep disabled');
+  if (_wakeVideo) {
+    _wakeVideo.pause();
   }
 }
 
-function requestWakeLock()  { enableNoSleep(); }
-function releaseWakeLock()  { disableNoSleep(); }
+function requestWakeLock() { enableNoSleep(); }
+function releaseWakeLock() { disableNoSleep(); }
 
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible' && settings.screenWakeLock) enableNoSleep();
