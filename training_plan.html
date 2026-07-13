@@ -528,12 +528,15 @@
   <div class="header-top">
     <h1>Great South Run 2026</h1>
     <span class="header-badge" style="background:rgba(255,255,255,0.2);color:#fff">Sub 1:20 target</span>
+    <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.4);font-family:monospace;align-self:flex-start;padding-top:2px">v1.2</span>
   </div>
-  <div class="header-meta">
+  <div class="header-meta" style="display:flex;align-items:center;gap:10px">
     <span class="pace-chip">Easy <span>9:00/mi</span></span>
     <span class="pace-chip">Steady <span>8:00/mi</span></span>
     <span class="pace-chip">Tempo <span>7:30/mi</span></span>
     <span class="pace-chip">Race day <span>18 Oct 2026</span></span>
+    <button onclick="showSettings()" style="margin-left:auto;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;flex-shrink:0">⚙ Settings</button>
+    <button onclick="showTimesPanel()" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;flex-shrink:0">⏱ Times</button>
   </div>
 </header>
 
@@ -542,7 +545,10 @@
   <div class="legend-item"><div class="legend-dot" style="background:#f0fdf4;border:2px solid #16a34a"></div> Run</div>
   <div class="legend-item"><div class="legend-dot" style="background:#fffbeb;border:2px solid #b45309"></div> Flex week</div>
   <div class="legend-item"><div class="legend-dot" style="background:#fefce8;border:2px solid #ca8a04"></div> Race day</div>
-  <div class="legend-item" style="margin-left:auto;font-size:11px;color:var(--text3)">Tap a session to open it ↓</div>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
+    <button onclick="showTimesPanel()" style="font-size:11px;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:6px;padding:4px 10px;cursor:pointer;font-family:inherit">⏱ Times</button>
+    <button onclick="showSettings()" style="font-size:11px;background:#2563eb;color:#fff;border:none;border-radius:6px;padding:4px 10px;cursor:pointer;font-family:inherit;font-weight:600">⚙ Settings</button>
+  </div>
 </div>
 
 <div class="plan-container" id="planContainer"></div>
@@ -1084,11 +1090,13 @@ const DEFAULT_SETTINGS = {
     'Bear crawl hold':   25,
   }
 };
-let settings = { ...DEFAULT_SETTINGS };
+let settings = JSON.parse(JSON.stringify(DEFAULT_SETTINGS));
 try {
   const saved = JSON.parse(localStorage.getItem('gsr2026_settings') || '{}');
   settings = { ...DEFAULT_SETTINGS, ...saved };
-} catch(e) {}
+  // always ensure holdDurations has all keys from defaults
+  settings.holdDurations = { ...DEFAULT_SETTINGS.holdDurations, ...(saved.holdDurations || {}) };
+} catch(e) { settings = JSON.parse(JSON.stringify(DEFAULT_SETTINGS)); }
 
 function saveSettings() {
   try { localStorage.setItem('gsr2026_settings', JSON.stringify(settings)); } catch(e) {}
@@ -1234,25 +1242,6 @@ function showSaveBanner() {
 
 // ── times panel ──────────────────────────────────────────────────────────────
 // ── settings panel ───────────────────────────────────────────────────────────
-function showSettings() {
-  document.getElementById('settingsPanel').style.display = 'flex';
-  renderSettingButtons();
-  renderWakeLockToggle();
-  renderHoldDurations();
-  renderSettingLabels();
-}
-
-function closeSettings() {
-  document.getElementById('settingsPanel').style.display = 'none';
-}
-
-function setSetting(key, value) {
-  settings[key] = value;
-  saveSettings();
-  renderSettingButtons();
-  renderSettingLabels();
-}
-
 function setHoldDuration(name, value) {
   const secs = parseInt(value);
   if (isNaN(secs) || secs < 5 || secs > 300) return;
@@ -1635,7 +1624,7 @@ function renderModalBody() {
 
   const intro = document.createElement('div');
   intro.className = 'session-intro';
-  intro.innerHTML = `Tap any exercise to expand it. Complete each set individually — tap exercises in any order. Rest <strong>45–60s</strong> between sets.`;
+  intro.innerHTML = `Tap any exercise to expand it. Complete each set individually — tap exercises in any order. Rest <strong>30s</strong> between sets (adjust in ⚙ Settings).`;
   body.appendChild(intro);
 
   currentExercises.forEach((exercise, ei) => {
