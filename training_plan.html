@@ -495,6 +495,24 @@
   .pace-mixed  { background: #ede9fe; color: #6d28d9; }
   .pace-race   { background: #fef3c7; color: #92400e; }
 
+  .setting-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text2);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .setting-btn.active {
+    background: #2563eb;
+    color: #fff;
+    border-color: #2563eb;
+  }
+
   @media (max-width: 700px) {
     .plan-container { padding: 12px; }
     .site-header { padding: 14px 16px 12px; }
@@ -528,6 +546,74 @@
 </div>
 
 <div class="plan-container" id="planContainer"></div>
+
+<!-- Settings panel -->
+<div id="settingsPanel" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#fff;border-radius:16px;width:100%;max-width:420px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.2)">
+    <div style="padding:18px 20px 14px;border-bottom:1px solid #dde0e8;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;border-radius:16px 16px 0 0">
+      <div><div style="font-size:16px;font-weight:700;color:#111827">⚙ Settings</div><div style="font-size:11px;color:#4b5563;margin-top:2px">Customise your training session</div></div>
+      <button onclick="closeSettings()" style="background:#f0f1f4;border:1px solid #dde0e8;color:#4b5563;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;font-family:inherit">✕</button>
+    </div>
+    <div style="padding:20px">
+
+      <!-- Rest duration -->
+      <div style="margin-bottom:24px">
+        <div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:4px">Rest between sets</div>
+        <div style="font-size:12px;color:#4b5563;margin-bottom:12px">How long to rest after completing each set</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap" id="rest-options">
+          <button onclick="setSetting('restDuration',20)" class="setting-btn" data-key="restDuration" data-val="20">20s</button>
+          <button onclick="setSetting('restDuration',30)" class="setting-btn" data-key="restDuration" data-val="30">30s</button>
+          <button onclick="setSetting('restDuration',45)" class="setting-btn" data-key="restDuration" data-val="45">45s</button>
+          <button onclick="setSetting('restDuration',60)" class="setting-btn" data-key="restDuration" data-val="60">60s</button>
+          <button onclick="setSetting('restDuration',90)" class="setting-btn" data-key="restDuration" data-val="90">90s</button>
+        </div>
+      </div>
+
+      <!-- Between exercise rest -->
+      <div style="margin-bottom:24px">
+        <div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:4px">Rest between exercises</div>
+        <div style="font-size:12px;color:#4b5563;margin-bottom:12px">Countdown shown between finishing one exercise and starting the next</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button onclick="setSetting('betweenExRest',30)" class="setting-btn" data-key="betweenExRest" data-val="30">30s</button>
+          <button onclick="setSetting('betweenExRest',45)" class="setting-btn" data-key="betweenExRest" data-val="45">45s</button>
+          <button onclick="setSetting('betweenExRest',60)" class="setting-btn" data-key="betweenExRest" data-val="60">60s</button>
+          <button onclick="setSetting('betweenExRest',90)" class="setting-btn" data-key="betweenExRest" data-val="90">90s</button>
+          <button onclick="setSetting('betweenExRest',120)" class="setting-btn" data-key="betweenExRest" data-val="120">2 min</button>
+        </div>
+      </div>
+
+      <!-- Get ready countdown -->
+      <div style="margin-bottom:24px">
+        <div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:4px">Get-ready countdown</div>
+        <div style="font-size:12px;color:#4b5563;margin-bottom:12px">Counts down before a hold timer starts so you can get into position</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button onclick="setSetting('getReadyCountdown',0)" class="setting-btn" data-key="getReadyCountdown" data-val="0">Off</button>
+          <button onclick="setSetting('getReadyCountdown',3)" class="setting-btn" data-key="getReadyCountdown" data-val="3">3s</button>
+          <button onclick="setSetting('getReadyCountdown',5)" class="setting-btn" data-key="getReadyCountdown" data-val="5">5s</button>
+          <button onclick="setSetting('getReadyCountdown',10)" class="setting-btn" data-key="getReadyCountdown" data-val="10">10s</button>
+        </div>
+      </div>
+
+      <!-- Screen wake lock -->
+      <div style="margin-bottom:24px">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:2px">Keep screen on</div>
+            <div style="font-size:12px;color:#4b5563">Prevents screen from sleeping during a session</div>
+          </div>
+          <button id="wake-lock-toggle" onclick="toggleWakeLock()" style="width:48px;height:28px;border-radius:14px;border:none;cursor:pointer;transition:background 0.2s;position:relative;font-family:inherit">
+            <div id="wake-lock-knob" style="width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:3px;transition:left 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2)"></div>
+          </button>
+        </div>
+      </div>
+
+      <div style="border-top:1px solid #dde0e8;padding-top:16px;display:flex;gap:8px">
+        <button onclick="resetSettings()" style="flex:1;background:#f0f1f4;color:#4b5563;border:1px solid #dde0e8;border-radius:8px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">Reset to defaults</button>
+        <button onclick="closeSettings()" style="flex:1;background:#2563eb;color:#fff;border:none;border-radius:8px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Modal -->
 <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
@@ -939,9 +1025,85 @@ function playRestDoneSound() {
 // unlock audio on first user gesture
 document.addEventListener('click', () => { getAudioCtx(); }, { once: true });
 
+// ── wake lock ─────────────────────────────────────────────────────────────────
+let wakeLock = null;
+
+async function requestWakeLock() {
+  if (!('wakeLock' in navigator)) return;
+  try {
+    wakeLock = await navigator.wakeLock.request('screen');
+    wakeLock.addEventListener('release', () => { wakeLock = null; });
+  } catch(e) { /* not available */ }
+}
+
+async function releaseWakeLock() {
+  if (wakeLock) { await wakeLock.release(); wakeLock = null; }
+}
+
+// re-acquire on visibility change (e.g. tab switch back)
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && settings.keepScreenOn && !wakeLock) {
+    requestWakeLock();
+  }
+});
+
 // ── completed state ───────────────────────────────────────────────────────────
 let completed = {};
 try { completed = JSON.parse(localStorage.getItem('gsr2026_completed') || '{}'); } catch(e) { completed = {}; }
+
+// ── settings ──────────────────────────────────────────────────────────────────
+const DEFAULT_SETTINGS = {
+  restDuration: 30,        // seconds between sets
+  betweenExRest: 60,       // seconds between exercises
+  getReadyCountdown: 5,    // seconds before hold timer starts
+  screenWakeLock: true,    // keep screen on during session
+};
+let settings = { ...DEFAULT_SETTINGS };
+try {
+  const saved = JSON.parse(localStorage.getItem('gsr2026_settings') || '{}');
+  settings = { ...DEFAULT_SETTINGS, ...saved };
+} catch(e) {}
+
+function saveSettings() {
+  try { localStorage.setItem('gsr2026_settings', JSON.stringify(settings)); } catch(e) {}
+}
+
+// ── wake lock ─────────────────────────────────────────────────────────────────
+let wakeLock = null;
+
+async function requestWakeLock() {
+  if (!settings.screenWakeLock) return;
+  try {
+    if ('wakeLock' in navigator) {
+      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock.addEventListener('release', () => { wakeLock = null; });
+    }
+  } catch(e) { console.log('Wake lock not available:', e.message); }
+}
+
+async function releaseWakeLock() {
+  if (wakeLock) {
+    try { await wakeLock.release(); } catch(e) {}
+    wakeLock = null;
+  }
+}
+
+// Re-acquire wake lock when page becomes visible again
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && settings.screenWakeLock) requestWakeLock();
+});
+
+// ── settings ──────────────────────────────────────────────────────────────────
+const DEFAULT_SETTINGS = { restSecs: 30, getReadySecs: 5, soundOn: true, betweenExRestSecs: 60, keepScreenOn: true };
+let settings = { ...DEFAULT_SETTINGS };
+try {
+  const saved = JSON.parse(localStorage.getItem('gsr2026_settings') || '{}');
+  settings = { ...DEFAULT_SETTINGS, ...saved };
+} catch(e) {}
+
+function saveSettings() {
+  try { localStorage.setItem('gsr2026_settings', JSON.stringify(settings)); } catch(e) {}
+}
 
 // ── session timing ────────────────────────────────────────────────────────────
 let sessionTimes = {};
@@ -993,6 +1155,12 @@ function resumeSessionTimer() {
 function togglePause() {
   if (pausedAt) resumeSessionTimer();
   else pauseSessionTimer();
+}
+
+function saveEdit(ei, si, value) {
+  if (!editedValues[ei]) editedValues[ei] = {};
+  editedValues[ei][si] = value;
+  // persist edits into session times on complete
 }
 
 function fmtMins(ms) {
@@ -1048,6 +1216,53 @@ function showSaveBanner() {
 }
 
 // ── times panel ──────────────────────────────────────────────────────────────
+// ── settings panel ───────────────────────────────────────────────────────────
+function showSettings() {
+  document.getElementById('settingsPanel').style.display = 'flex';
+  renderSettingButtons();
+  renderWakeLockToggle();
+}
+
+function closeSettings() {
+  document.getElementById('settingsPanel').style.display = 'none';
+}
+
+function setSetting(key, value) {
+  settings[key] = value;
+  saveSettings();
+  renderSettingButtons();
+}
+
+function resetSettings() {
+  settings = { ...DEFAULT_SETTINGS };
+  saveSettings();
+  renderSettingButtons();
+  renderWakeLockToggle();
+}
+
+function toggleWakeLock() {
+  settings.screenWakeLock = !settings.screenWakeLock;
+  saveSettings();
+  renderWakeLockToggle();
+}
+
+function renderWakeLockToggle() {
+  const btn = document.getElementById('wake-lock-toggle');
+  const knob = document.getElementById('wake-lock-knob');
+  if (!btn || !knob) return;
+  const on = settings.screenWakeLock;
+  btn.style.background = on ? '#2563eb' : '#d1d5db';
+  knob.style.left = on ? '23px' : '3px';
+}
+
+function renderSettingButtons() {
+  document.querySelectorAll('.setting-btn').forEach(btn => {
+    const key = btn.dataset.key;
+    const val = parseInt(btn.dataset.val);
+    btn.classList.toggle('active', settings[key] === val);
+  });
+}
+
 function showTimesPanel() {
   const panel = document.getElementById('timesPanel');
   const body  = document.getElementById('timesPanelBody');
@@ -1093,10 +1308,12 @@ function showTimesPanel() {
     const date = data.completedAt ? new Date(data.completedAt).toLocaleDateString('en-GB', {day:'numeric',month:'short'}) : '—';
     const mins = fmtMins(data.durationMs);
     const exact = fmtElapsed(data.durationMs);
+    const editNote = data.edits ? '<div style="color:#b45309;font-size:10px">✎ modified</div>' : '';
     html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f1f4;font-size:12px">
       <div>
         <div style="font-weight:600;color:#111827">${data.label}</div>
         <div style="color:#9ca3af;font-size:10px">${date}</div>
+        ${editNote}
       </div>
       <div style="text-align:right">
         <div style="font-weight:700;font-family:monospace;color:#2563eb">${exact}</div>
@@ -1105,11 +1322,90 @@ function showTimesPanel() {
     </div>`;
   });
 
+  // add export button at top
+  html = `<div style="margin-bottom:14px;display:flex;gap:8px">
+    <button onclick="exportData()" style="flex:1;background:#2563eb;color:#fff;border:none;border-radius:8px;padding:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">⬇ Export to CSV</button>
+  </div>` + html;
+
   body.innerHTML = html;
 }
 
 function closeTimesPanel() {
   document.getElementById('timesPanel').style.display = 'none';
+}
+
+function exportData() {
+  const times = JSON.parse(localStorage.getItem('gsr2026_times') || '{}');
+  const done  = JSON.parse(localStorage.getItem('gsr2026_completed') || '{}');
+
+  if (Object.keys(times).length === 0) {
+    alert('No sessions completed yet — nothing to export.');
+    return;
+  }
+
+  const rows = [['Date', 'Session', 'Duration (mm:ss)', 'Duration (mins)', 'Edits made']];
+
+  Object.entries(times)
+    .sort((a,b) => new Date(a[1].completedAt||0) - new Date(b[1].completedAt||0))
+    .forEach(([key, data]) => {
+      if (!data.durationMs) return;
+      const date = data.completedAt
+        ? new Date(data.completedAt).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})
+        : '—';
+      const mmss = fmtElapsed(data.durationMs);
+      const mins = Math.round(data.durationMs / 60000);
+      const edits = data.edits ? JSON.stringify(data.edits) : 'None';
+      rows.push([date, data.label, mmss, mins, edits]);
+    });
+
+  const csv = rows.map(r => r.map(cell => `"${String(cell).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'gsr2026_training_sessions.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── settings panel ───────────────────────────────────────────────────────────
+function showSettings() {
+  document.getElementById('settingsPanel').style.display = 'flex';
+  updateSettingButtons();
+}
+
+function closeSettings() {
+  document.getElementById('settingsPanel').style.display = 'none';
+}
+
+function setSetting(key, value) {
+  // handle booleans passed as strings from HTML
+  if (value === 'true') value = true;
+  if (value === 'false') value = false;
+  settings[key] = value;
+  saveSettings();
+  updateSettingButtons();
+}
+
+function updateSettingButtons() {
+  document.querySelectorAll('.setting-btn').forEach(btn => {
+    const key = btn.dataset.setting;
+    let val = btn.dataset.val;
+    // type coerce
+    if (val === 'true') val = true;
+    else if (val === 'false') val = false;
+    else if (!isNaN(val)) val = Number(val);
+    const isActive = settings[key] === val;
+    btn.style.background = isActive ? '#2563eb' : '#f0f1f4';
+    btn.style.color = isActive ? '#fff' : '#4b5563';
+    btn.style.border = isActive ? '1px solid #2563eb' : '1px solid #dde0e8';
+    btn.style.borderRadius = '8px';
+    btn.style.padding = '7px 14px';
+    btn.style.fontSize = '13px';
+    btn.style.fontWeight = '600';
+    btn.style.cursor = 'pointer';
+    btn.style.fontFamily = 'inherit';
+  });
 }
 
 // ── render plan ───────────────────────────────────────────────────────────────
@@ -1237,11 +1533,13 @@ function openModal(week, day, di, key) {
     const { count } = parseSets(ex.sets);
     return new Array(count).fill(false);
   });
+  editedValues = {};  // reset edits on new session
 
   currentDayLabel = day.label;
   sessionStartTime = Date.now();
   pausedAt = null;
   totalPausedMs = 0;
+  if (settings.keepScreenOn) requestWakeLock();
 
   document.getElementById('modalTitle').textContent = `${day.label} — ${day.date}`;
 
@@ -1350,9 +1648,27 @@ function buildSetRow(exercise, ei, si, totalSets, repDesc) {
           <button class="btn btn-ghost btn-sm" onclick="resetSetTimer('${ei}','${si}',${timerSec})">Reset</button>
         </div>
       </div>
+      <div style="margin-bottom:8px">
+        <div style="font-size:10px;color:var(--text3);margin-bottom:3px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px">Actual hold time (edit if different)</div>
+        <input type="text" id="edit-${ei}-${si}" value="${timerSec}s"
+          style="width:100%;font-size:13px;color:var(--text);background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:7px 10px;font-family:inherit"
+          oninput="saveEdit('${ei}','${si}',this.value)" />
+      </div>
     `;
   } else {
-    bodyHtml = `<div style="font-size:12px;color:var(--text2);margin-bottom:8px">${repDesc}</div>`;
+    bodyHtml = `
+      <div style="margin-bottom:10px">
+        <div style="font-size:10px;color:var(--text3);margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px">Target — edit if needed</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <input type="text" id="edit-${ei}-${si}"
+            value="${repDesc}"
+            style="flex:1;font-size:13px;color:var(--text);background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:7px 10px;font-family:inherit"
+            oninput="saveEdit('${ei}','${si}',this.value)"
+            placeholder="${repDesc}" />
+        </div>
+        <div style="font-size:10px;color:var(--text3);margin-top:4px">Change this if you did more or fewer reps</div>
+      </div>
+    `;
   }
 
   row.innerHTML = `
@@ -1424,7 +1740,6 @@ function markSetDone(ei, si) {
   const row = document.getElementById(`set-${ei}-${si}`);
   if (row) { row.classList.remove('set-active'); row.classList.add('set-done'); }
 
-  // show undo
   const undoBtn = document.getElementById(`undo-${ei}-${si}`);
   if (undoBtn) undoBtn.style.display = 'inline-flex';
 
@@ -1432,16 +1747,22 @@ function markSetDone(ei, si) {
   updateProgress();
   checkAllDone();
 
-  // auto-open next incomplete set in same exercise
   const nextSi = si + 1;
-  if (nextSi < setsDone[ei].length && !setsDone[ei][nextSi]) {
-    // show rest bar on next set
+  const allSetsInExDone = setsDone[ei].every(Boolean);
+
+  if (!allSetsInExDone && nextSi < setsDone[ei].length && !setsDone[ei][nextSi]) {
+    // more sets in this exercise — auto-start rest then open next set
     setTimeout(() => {
       activateSetRow(ei, nextSi);
       const restBar = document.getElementById(`rest-${ei}-${nextSi}`);
-      if (restBar) restBar.classList.add('show');
-    }, 200);
+      if (restBar) {
+        restBar.classList.add('show');
+        autoStartRestTimer(ei, nextSi);
+      }
+    }, 300);
   }
+  // if all sets done, updateExCard handles opening the next exercise
+  // and a between-exercise rest will fire from updateExCard
 }
 
 function undoSet(ei, si) {
@@ -1467,24 +1788,129 @@ function updateExCard(ei) {
   if (allDone) {
     card.classList.add('ex-allset');
     card.classList.remove('ex-open');
-    // auto-open next exercise
+    // show between-exercise rest, then auto-open next
     const nextEi = ei + 1;
     if (nextEi < currentExercises.length && !setsDone[nextEi].every(Boolean)) {
-      setTimeout(() => toggleExCard(nextEi), 300);
+      showBetweenExerciseRest(ei, nextEi);
     }
   } else {
     card.classList.remove('ex-allset');
   }
 }
 
+// ── between exercise rest ─────────────────────────────────────────────────────
+let betweenRestInterval = null;
+
+function skipBetweenRest(nextEi) {
+  clearInterval(betweenRestInterval);
+  const el = document.getElementById('between-rest');
+  if (el) el.remove();
+  setTimeout(() => toggleExCard(nextEi), 100);
+}
+
+function showBetweenExerciseRest(fromEi, nextEi) {
+  const existing = document.getElementById('between-rest');
+  if (existing) existing.remove();
+  clearInterval(betweenRestInterval);
+
+  const nextEx = currentExercises[nextEi];
+  const overlay = document.createElement('div');
+  overlay.id = 'between-rest';
+  overlay.style.cssText = 'position:sticky;bottom:0;left:0;right:0;background:#1d4ed8;color:#fff;padding:14px 18px;border-radius:12px 12px 0 0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,0.15);margin:12px -16px -24px';
+
+  let sec = settings.betweenExRestSecs;
+  overlay.innerHTML = `
+    <div>
+      <div style="font-size:11px;opacity:0.8;font-weight:600;letter-spacing:0.5px;text-transform:uppercase">Rest before next exercise</div>
+      <div style="font-size:13px;font-weight:600;margin-top:2px">${nextEx ? nextEx.name : 'Next'} up next</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
+      <div id="between-rest-display" style="font-size:28px;font-weight:800;font-family:var(--font-mono);letter-spacing:-1px">${fmtTime(sec)}</div>
+      <button onclick="skipBetweenRest(${nextEi})" style="background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">Skip →</button>
+    </div>
+  `;
+
+  document.getElementById('modalBody').appendChild(overlay);
+  setTimeout(() => overlay.scrollIntoView({ behavior: 'smooth', block: 'end' }), 100);
+
+  betweenRestInterval = setInterval(() => {
+    sec--;
+    const d = document.getElementById('between-rest-display');
+    if (d) d.textContent = sec > 0 ? fmtTime(sec) : 'Go!';
+    if (sec > 0 && sec <= 3 && settings.soundOn) playCountdownBeep();
+    if (sec <= 0) {
+      clearInterval(betweenRestInterval);
+      if (settings.soundOn) playRestDoneSound();
+      setTimeout(() => skipBetweenRest(nextEi), 600);
+    }
+  }, 1000);
+}
+
 // ── timers ────────────────────────────────────────────────────────────────────
 function startSetTimer(ei, si, totalSec) {
   const key = `${ei}-${si}`;
   if (activeTimers[key]) return;
+  const display = document.getElementById(`timer-${ei}-${si}`);
+  const btn = document.getElementById(`timer-${ei}-${si}-btn`);
+  if (btn) { btn.disabled = true; }
+
+  const getReady = settings.getReadyCountdown;
+
+  if (getReady > 0) {
+    let countdown = getReady;
+    if (display) { display.textContent = countdown; display.className = 'set-timer-display warning'; }
+    if (btn) btn.textContent = `Get ready… ${countdown}`;
+    playCountdownBeep();
+    activeTimers[key] = setInterval(() => {
+      countdown--;
+      if (countdown > 0) {
+        if (display) display.textContent = countdown;
+        if (btn) btn.textContent = `Get ready… ${countdown}`;
+        playCountdownBeep();
+      } else {
+        clearInterval(activeTimers[key]);
+        delete activeTimers[key];
+        if (display) { display.textContent = fmtTime(totalSec); display.className = 'set-timer-display'; }
+        if (btn) btn.textContent = 'Running…';
+        playDoneSound();
+        runHoldTimer(ei, si, totalSec);
+      }
+    }, 1000);
+  } else {
+    if (btn) btn.textContent = 'Running…';
+    runHoldTimer(ei, si, totalSec);
+  }
+}
+
+function runHoldTimer(ei, si, totalSec) {
+  const key = `${ei}-${si}`;
   let sec = totalSec;
   const display = document.getElementById(`timer-${ei}-${si}`);
   const btn = document.getElementById(`timer-${ei}-${si}-btn`);
-  if (btn) { btn.textContent = 'Running…'; btn.disabled = true; }
+  activeTimers[key] = setInterval(() => {
+    sec--;
+    if (display) {
+      display.textContent = fmtTime(sec);
+      display.className = 'set-timer-display' + (sec <= 5 && sec > 0 ? ' warning' : sec <= 0 ? ' done-t' : '');
+    }
+    if (sec > 0 && sec <= 5) playCountdownBeep();
+    if (sec <= 0) {
+      clearSetTimer(ei, si);
+      if (display) display.textContent = 'Done!';
+      if (btn) { btn.textContent = 'Start timer'; btn.disabled = false; }
+      playDoneSound();
+      const rb = document.getElementById(`rest-${ei}-${si}`);
+      if (rb) { rb.classList.add('show'); autoStartRestTimer(ei, si); }
+    }
+  }, 1000);
+}
+
+function runSetTimer(ei, si, totalSec) {
+  const key = `${ei}-${si}`;
+  if (activeTimers[key]) { clearInterval(activeTimers[key]); delete activeTimers[key]; }
+  let sec = totalSec;
+  const display = document.getElementById(`timer-${ei}-${si}`);
+  const btn = document.getElementById(`timer-${ei}-${si}-btn`);
 
   activeTimers[key] = setInterval(() => {
     sec--;
@@ -1492,16 +1918,14 @@ function startSetTimer(ei, si, totalSec) {
       display.textContent = fmtTime(sec);
       display.className = 'set-timer-display' + (sec <= 5 && sec > 0 ? ' warning' : sec <= 0 ? ' done-t' : '');
     }
-    // audio cues
-    if (sec > 0 && sec <= 5) playCountdownBeep();
+    if (sec > 0 && sec <= 5 && settings.soundOn) playCountdownBeep();
     if (sec <= 0) {
       clearSetTimer(ei, si);
       if (display) display.textContent = 'Done!';
       if (btn) { btn.textContent = 'Start timer'; btn.disabled = false; }
-      playDoneSound();
-      // auto-show rest bar
+      if (settings.soundOn) playDoneSound();
       const restBar = document.getElementById(`rest-${ei}-${si}`);
-      if (restBar) restBar.classList.add('show');
+      if (restBar) { restBar.classList.add('show'); autoStartRestTimer(ei, si); }
     }
   }, 1000);
 }
@@ -1520,19 +1944,26 @@ function clearSetTimer(ei, si) {
 }
 
 function startRestTimer(ei, si) {
+  autoStartRestTimer(ei, si);
+}
+
+function autoStartRestTimer(ei, si) {
   const key = `${ei}-${si}`;
   if (activeRestTimers[key]) { clearInterval(activeRestTimers[key]); delete activeRestTimers[key]; }
-  let sec = 45;
+  let sec = settings.restSecs;
   const display = document.getElementById(`rest-${ei}-${si}-display`);
-  if (display) display.textContent = fmtTime(sec);
+  const startBtn = document.querySelector(`#rest-${ei}-${si} .btn-ghost`);
+  if (display) { display.textContent = fmtTime(settings.restDuration); display.textContent = fmtTime(sec); }
+  if (startBtn) startBtn.textContent = 'Restart';
   activeRestTimers[key] = setInterval(() => {
     sec--;
     if (display) display.textContent = sec > 0 ? fmtTime(sec) : 'Go! 🏃';
-    if (sec > 0 && sec <= 3) playCountdownBeep();
+    if (sec > 0 && sec <= 3 && settings.soundOn) playCountdownBeep();
     if (sec <= 0) {
       clearInterval(activeRestTimers[key]);
       delete activeRestTimers[key];
-      playRestDoneSound();
+      if (settings.soundOn) playRestDoneSound();
+      if (startBtn) startBtn.textContent = 'Start';
     }
   }, 1000);
 }
@@ -1594,12 +2025,12 @@ function saveSessionProgress() {
 function markSessionDone() {
   if (currentKey) {
     completed[currentKey] = true;
-    // record timing
     const durationMs = sessionStartTime ? getNetElapsed() : null;
     sessionTimes[currentKey] = {
       label: currentDayLabel,
       durationMs,
       completedAt: new Date().toISOString(),
+      edits: Object.keys(editedValues).length > 0 ? JSON.parse(JSON.stringify(editedValues)) : null,
     };
     saveSessionTimes();
     // clear any partial state
@@ -1646,6 +2077,7 @@ function openRunModal(week, day) {
 function closeModal() {
   clearAllTimers();
   stopElapsedClock();
+  releaseWakeLock();
   sessionStartTime = null;
   pausedAt = null;
   totalPausedMs = 0;
