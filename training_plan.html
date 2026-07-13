@@ -1256,14 +1256,23 @@ function showSaveBanner() {
 
 // ── times panel ──────────────────────────────────────────────────────────────
 // ── settings panel ───────────────────────────────────────────────────────────
-function setHoldDuration(name, value) {
+function setHoldDuration(name, value, clickedBtn) {
   const secs = parseInt(value);
   if (isNaN(secs) || secs < 5 || secs > 300) return;
   if (!settings.holdDurations) settings.holdDurations = {};
   settings.holdDurations[name] = secs;
   saveSettings();
-  renderHoldDurations();  // re-render to show new active state
-  renderSettingLabels();
+  // update active state directly without re-rendering whole section
+  if (clickedBtn) {
+    const group = clickedBtn.closest('.hold-group');
+    if (group) {
+      group.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      clickedBtn.classList.add('active');
+    }
+    // update the current label
+    const lbl = document.getElementById('hold-lbl-' + name.replace(/\s+/g,'-'));
+    if (lbl) lbl.textContent = secs + 's';
+  }
 }
 
 function renderSettingLabels() {
@@ -1293,15 +1302,16 @@ function renderHoldDurations() {
   container.innerHTML = durations.map(({ name, icon }) => {
     const current = parseInt(settings.holdDurations?.[name]) || defaults[name];
     const opts = [10,15,20,25,30,35,40,45,50,60,75,90];
+    const safeName = name.replace(/\s+/g,'-');
     return `
       <div style="margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid #f0f1f4">
         <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
           <div style="font-size:13px;font-weight:700;color:#111827">${icon} ${name}</div>
-          <div style="font-size:11px;color:#9ca3af">default ${defaults[name]}s · current <span style="color:#2563eb;font-weight:600">${current}s</span></div>
+          <div style="font-size:11px;color:#9ca3af">default ${defaults[name]}s · current <span id="hold-lbl-${safeName}" style="color:#2563eb;font-weight:600">${current}s</span></div>
         </div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <div class="hold-group" style="display:flex;gap:6px;flex-wrap:wrap">
           ${opts.map(s => `<button
-            onclick="setHoldDuration('${name}',${s})"
+            onclick="setHoldDuration('${name}',${s},this)"
             class="setting-btn${current===s?' active':''}"
             style="min-width:40px;padding:7px 10px">${s}s</button>`).join('')}
         </div>
@@ -1335,6 +1345,7 @@ function renderWakeLockToggle() {
 }
 
 function renderSettingButtons() {
+  // only target buttons with data-key (timing buttons), not hold-group buttons
   document.querySelectorAll('.setting-btn[data-key]').forEach(btn => {
     const key = btn.dataset.key;
     const val = btn.dataset.val === '0' ? 0 : (parseInt(btn.dataset.val) || btn.dataset.val);
