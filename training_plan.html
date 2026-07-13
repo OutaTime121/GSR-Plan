@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Great South Run 2026 — Training Plan</title>
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --surface: #ffffff;
+    --surface2: #f0f1f4;
+    --border: #dde0e8;
+    --accent: #2563eb;
+    --accent2: #7c3aed;
+    --green: #16a34a;
+    --green-bg: #dcfce7;
+    --amber: #b45309;
+    --amber-bg: #fef3c7;
+    --red: #dc2626;
+    --text: #111827;
+    --text2: #4b5563;
+    --text3: #9ca3af;
+    --strength-bg: #eff6ff;
+    --strength-border: #bfdbfe;
+    --run-bg: #f0fdf4;
+    --run-border: #bbf7d0;
+    --flex-bg: #fffbeb;
+    --flex-border: #fde68a;
+    --race-bg: #fefce8;
+    --race-border: #fde047;
+    --font-mono: 'SF Mono', 'Fira Code', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* ── header ── */
+  .site-header {
+    background: #1d4ed8;
+    border-bottom: 1px solid #1e40af;
+    padding: 20px 24px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .header-top {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .header-top h1 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: #fff;
+  }
+  .header-badge {
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--accent);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+  }
+  .header-meta {
+    display: flex;
+    gap: 20px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  .pace-chip {
+    font-size: 11px;
+    color: rgba(255,255,255,0.75);
+    font-family: var(--font-mono);
+    background: rgba(255,255,255,0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .pace-chip span { color: #fff; font-weight: 700; }
+
+  /* ── legend ── */
+  .legend {
+    display: flex;
+    gap: 16px;
+    padding: 10px 24px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+  }
+
+  /* ── main grid ── */
+  .plan-container {
+    padding: 20px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .phase-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin: 24px 0 10px;
+    border-left: 3px solid var(--accent);
+    padding-left: 10px;
+  }
+
+  .week-block {
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  .week-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .week-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .week-num {
+    font-size: 11px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    color: var(--text2);
+    letter-spacing: 0.5px;
+  }
+  .week-dates {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .week-phase-tag {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+  }
+  .tag-foundation { background: #dbeafe; color: #1d4ed8; }
+  .tag-build      { background: #dcfce7; color: #15803d; }
+  .tag-flex       { background: #fef3c7; color: #92400e; }
+  .tag-peak       { background: #ede9fe; color: #6d28d9; }
+  .tag-maintain   { background: #e0f2fe; color: #0369a1; }
+  .tag-taper      { background: #fff7ed; color: #9a3412; }
+  .tag-raceweek   { background: #fee2e2; color: #991b1b; }
+  .week-sub {
+    font-size: 10px;
+    color: var(--text2);
+  }
+
+  /* day grid */
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+  .day-cell {
+    border-right: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+    padding: 8px 6px;
+    min-height: 100px;
+    position: relative;
+  }
+  .day-cell:last-child { border-right: none; }
+  .day-cell.clickable { cursor: pointer; transition: opacity 0.15s; }
+  .day-cell.clickable:hover { opacity: 0.85; }
+
+  .day-name {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin-bottom: 2px;
+  }
+  .day-date {
+    font-size: 10px;
+    color: var(--text2);
+    margin-bottom: 6px;
+    font-family: var(--font-mono);
+    font-weight: 600;
+  }
+  .day-type-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .day-cell.strength-cell { background: var(--strength-bg); border-left: 2px solid var(--strength-border); }
+  .day-cell.run-cell { background: var(--run-bg); border-left: 2px solid var(--run-border); }
+  .day-cell.flex-cell { background: var(--flex-bg); border-left: 2px solid var(--flex-border); }
+  .day-cell.race-cell { background: var(--race-bg); border-left: 2px solid var(--race-border); }
+  .day-cell.rest-cell { background: var(--bg); }
+
+  .type-strength { color: #1d4ed8; font-weight:700; }
+  .type-run      { color: #15803d; font-weight:700; }
+  .type-rest     { color: var(--text2); }
+  .type-race     { color: #92400e; font-weight:700; }
+
+  .day-preview {
+    font-size: 9px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .day-preview li {
+    list-style: none;
+    padding: 1px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .day-preview li:last-child { border-bottom: none; }
+
+  .click-hint-inline {
+    font-size: 8px;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* completed indicator */
+  .day-cell.completed::after {
+    content: '✓';
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    font-size: 11px;
+    color: var(--green);
+    font-weight: 900;
+  }
+
+  /* ── modal ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 560px;
+    max-height: 88vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  }
+
+  .modal-header {
+    padding: 18px 20px 12px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--surface);
+    z-index: 1;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 1px 0 var(--border);
+  }
+  .modal-header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .modal-title { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; color: var(--text); }
+  .modal-subtitle { font-size: 11px; color: var(--text2); margin-top: 2px; font-weight: 500; }
+  .modal-close {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 15px; flex-shrink: 0;
+  }
+  .modal-close:hover { color: var(--text); }
+
+  .modal-progress {
+    margin-top: 10px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .progress-bar-wrap {
+    flex: 1; height: 5px;
+    background: var(--border); border-radius: 2px; overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%; background: var(--green); border-radius: 2px;
+    transition: width 0.3s ease;
+  }
+  .progress-text { font-size: 11px; color: var(--text2); font-family: var(--font-mono); white-space: nowrap; }
+
+  /* modal body */
+  .modal-body { padding: 14px 16px 24px; }
+
+  .session-intro {
+    font-size: 11px; color: var(--text2);
+    margin-bottom: 14px; line-height: 1.5;
+    padding: 9px 11px;
+    background: var(--surface2); border-radius: 8px;
+    border-left: 3px solid var(--accent); color: var(--text);
+  }
+
+  /* exercise card — always visible, clickable to expand */
+  .ex-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .ex-card.ex-open   { border-color: var(--accent); }
+  .ex-card.ex-allset { border-color: var(--green); }
+
+  .ex-card-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 11px 13px;
+    background: var(--surface2);
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .ex-card-header:hover { background: #e8eaf0; }
+
+  .ex-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--surface); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; font-family: var(--font-mono);
+    color: var(--text2); flex-shrink: 0;
+  }
+  .ex-card.ex-open   .ex-num { background: var(--accent); color:#fff; border-color:var(--accent); }
+  .ex-card.ex-allset .ex-num { background: var(--green);  color:#111; border-color:var(--green); }
+
+  .ex-info { flex: 1; min-width: 0; }
+  .ex-name { font-size: 13px; font-weight: 600; }
+  .ex-sets-label { font-size: 11px; color: var(--text2); margin-top: 1px; }
+  .ex-eq   { font-size: 10px; color: var(--amber); font-style: italic; margin-top: 1px; }
+
+  .ex-header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .ex-yt {
+    font-size: 11px; color: var(--accent); text-decoration: none;
+    padding: 3px 8px; border: 1px solid var(--border); border-radius: 6px;
+    white-space: nowrap; cursor: pointer; background: transparent; font-family: inherit;
+  }
+  .ex-yt:hover { border-color: var(--accent); background: #eff6ff; }
+  .ex-chevron { font-size: 12px; color: var(--text3); transition: transform 0.2s; }
+  .ex-card.ex-open .ex-chevron { transform: rotate(180deg); }
+
+  /* sets list inside card */
+  .ex-body { display: none; padding: 0 13px 13px; }
+  .ex-card.ex-open .ex-body { display: block; }
+
+  .sets-list { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+
+  .set-row {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .set-row.set-done { border-color: var(--green); opacity: 0.65; }
+
+  .set-row-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 11px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .set-label { font-size: 12px; font-weight: 600; color: var(--text); }
+  .set-rep-label { font-size: 11px; color: var(--text2); }
+
+  .set-body { padding: 10px 11px; display: none; }
+  .set-row.set-active .set-body { display: block; }
+  .set-row.set-done   .set-body { display: none; }
+
+  /* timer inside a set */
+  .set-timer {
+    background: var(--strength-bg); border-radius: 8px;
+    padding: 12px; text-align: center; margin-bottom: 10px;
+    border: 1px solid var(--strength-border);
+  }
+  .set-timer-display {
+    font-size: 40px; font-weight: 700;
+    font-family: var(--font-mono); letter-spacing: -1px;
+    color: var(--accent); line-height: 1;
+  }
+  .set-timer-display.warning { color: var(--amber); }
+  .set-timer-display.done-t  { color: var(--green); }
+  .set-timer-label { font-size: 10px; color: var(--text2); margin-top: 3px; }
+  .set-timer-btns { display: flex; gap: 6px; justify-content: center; margin-top: 8px; }
+
+  /* rest bar */
+  .rest-bar {
+    background: var(--amber-bg); border: 1px solid #fcd34d;
+    border-radius: 7px; padding: 8px 11px;
+    display: none; align-items: center; justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .rest-bar.show { display: flex; }
+  .rest-bar-label { font-size: 11px; color: var(--text2); }
+  .rest-bar-display { font-size: 18px; font-weight: 700; font-family: var(--font-mono); color: var(--amber); }
+
+  /* set action buttons */
+  .set-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  /* buttons */
+  .btn {
+    border: none; border-radius: 8px;
+    padding: 8px 14px; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: opacity 0.15s, transform 0.1s;
+    font-family: inherit;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { opacity: 0.9; }
+  .btn-success { background: var(--green); color: #111; }
+  .btn-success:hover { opacity: 0.9; }
+  .btn-ghost { background: var(--surface2); color: var(--text2); border: 1px solid var(--border); }
+  .btn-ghost:hover { color: var(--text); border-color: var(--text3); }
+  .btn-sm { padding: 5px 10px; font-size: 11px; }
+  .btn-full { width: 100%; }
+  .btn-undo { background: transparent; color: var(--text2); border: 1px solid var(--border); }
+  .btn-undo:hover { color: var(--text); border-color: var(--text2); }
+
+  /* session complete */
+  .session-complete { text-align: center; padding: 28px 20px; display: none; }
+  .session-complete.show { display: block; }
+  .complete-icon { font-size: 44px; margin-bottom: 10px; }
+  .complete-title { font-size: 19px; font-weight: 700; margin-bottom: 5px; }
+  .complete-sub { font-size: 12px; color: var(--text2); margin-bottom: 18px; }
+
+  /* scrollbar */
+  .modal::-webkit-scrollbar { width: 6px; }
+  .modal::-webkit-scrollbar-track { background: transparent; }
+  .modal::-webkit-scrollbar-thumb { background: var(--text3); border-radius: 3px; }
+
+
+  .pace-badge {
+    display: inline-block;
+    font-size: 8px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-top: 4px;
+    letter-spacing: 0.3px;
+  }
+  .pace-easy   { background: #dcfce7; color: #15803d; }
+  .pace-steady { background: #dbeafe; color: #1d4ed8; }
+  .pace-tempo  { background: #fee2e2; color: #991b1b; }
+  .pace-mixed  { background: #ede9fe; color: #6d28d9; }
+  .pace-race   { background: #fef3c7; color: #92400e; }
+
+  @media (max-width: 700px) {
+    .plan-container { padding: 12px; }
+    .site-header { padding: 14px 16px 12px; }
+    .legend { padding: 8px 12px; gap: 10px; }
+    .day-cell { min-height: 80px; padding: 6px 4px; }
+    .day-preview { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-top">
+    <h1>Great South Run 2026</h1>
+    <span class="header-badge" style="background:rgba(255,255,255,0.2);color:#fff">Sub 1:20 target</span>
+  </div>
+  <div class="header-meta">
+    <span class="pace-chip">Easy <span>9:00/mi</span></span>
+    <span class="pace-chip">Steady <span>8:00/mi</span></span>
+    <span class="pace-chip">Tempo <span>7:30/mi</span></span>
+    <span class="pace-chip">Race day <span>18 Oct 2026</span></span>
+  </div>
+</header>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#eff6ff;border:2px solid #2563eb"></div> Strength</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f0fdf4;border:2px solid #16a34a"></div> Run</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fffbeb;border:2px solid #b45309"></div> Flex week</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fefce8;border:2px solid #ca8a04"></div> Race day</div>
+  <div class="legend-item" style="margin-left:auto;font-size:11px;color:var(--text3)">Tap a session to open it ↓</div>
+</div>
+
+<div class="plan-container" id="planContainer"></div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-header-top">
+        <div>
+          <div class="modal-title" id="modalTitle"></div>
+          <div class="modal-subtitle" id="modalSubtitle"></div>
+        </div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-progress">
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+        </div>
+        <div class="progress-text" id="progressText">0 / 0</div>
+        <div style="display:flex;align-items:center;gap:5px;flex-shrink:0"><div id="elapsed-display" style="font-size:11px;font-family:var(--font-mono);color:var(--text2);background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:2px 7px;white-space:nowrap">0:00</div><button id="pause-resume-btn" onclick="togglePause()" style="font-size:10px;background:var(--surface2);color:var(--text2);border:1px solid var(--border);border-radius:6px;padding:2px 7px;cursor:pointer;font-family:inherit;white-space:nowrap">⏸ Pause</button></div>
+      </div>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+
+const EQ = {
+  T: 'resistance tubes',
+  B: 'black band (looped)',
+  TT: 'thigh toner',
+};
+
+function ex(name, sets, url, eq, timerSec) {
+  return { name, sets, url, eq: eq || null, timerSec: timerSec || null };
+}
+
+// Exercise sets
+const LEGS_F = [
+  ex("Assisted lunge (chair)", "3 sets × 8 each leg", "https://youtu.be/TvCj21kV0_o"),
+  ex("Glute bridge", "3 sets × 12 reps", "https://youtu.be/nuapk_-Q2BI"),
+  ex("Wall sit", "3 sets × 30 seconds", "https://youtu.be/JaZNYM3zAP0", null, 30),
+  ex("Lateral band walk", "3 sets × 12 each way", "https://youtu.be/y_bqFDQZSHQ", "B"),
+  ex("Calf raise (slow)", "3 sets × 15 reps", "https://youtu.be/Ux47hU-ePXs"),
+  ex("Press ups", "3 sets × 8 reps", "https://youtu.be/IODxDxX7oi4"),
+  ex("Sit ups", "3 sets × 10 reps", "https://youtu.be/1fbU_MkV7NE"),
+];
+const CORE_F = [
+  ex("Dead bug", "3 sets × 8 each side", "https://youtu.be/bxn9FBrt4-A"),
+  ex("Plank", "3 sets × 30 seconds", "https://youtu.be/7Zat7RFY52Y", null, 30),
+  ex("Side plank", "2 sets × 20 seconds each side", "https://youtu.be/iNbH7_edNI8", null, 20),
+  ex("Bird dog", "3 sets × 8 each side", "https://youtu.be/ZdAHe9_HeEw"),
+  ex("Glute bridge hold", "3 sets × 30 seconds", "https://youtu.be/nuapk_-Q2BI", null, 30),
+  ex("Sit ups", "3 sets × 10 reps", "https://youtu.be/1fbU_MkV7NE"),
+  ex("Press ups", "3 sets × 8 reps", "https://youtu.be/IODxDxX7oi4"),
+];
+const COMBO_F = [
+  ex("Squat", "3 sets × 10 reps", "https://youtu.be/P-yaD24bUE8"),
+  ex("Step-up (stair)", "3 sets × 8 each leg", "https://youtu.be/vOiHvzj5XhA"),
+  ex("Single-leg glute bridge", "3 sets × 8 each leg", "https://youtu.be/nuapk_-Q2BI"),
+  ex("Pallof press", "3 sets × 10 each side", "https://youtu.be/P16SQlmWj1o", "T"),
+  ex("Hollow body hold", "3 sets × 20 seconds", "https://youtu.be/0yPin8hSc8o", null, 20),
+  ex("Press ups", "3 sets × 8 reps", "https://youtu.be/IODxDxX7oi4"),
+  ex("Sit ups", "3 sets × 10 reps", "https://youtu.be/1fbU_MkV7NE"),
+];
+const LEGS_B = [
+  ex("Lunge (less chair support)", "3 sets × 10 each leg", "https://youtu.be/TvCj21kV0_o"),
+  ex("Single-leg glute bridge", "3 sets × 10 each leg", "https://youtu.be/nuapk_-Q2BI"),
+  ex("Wall sit", "3 sets × 45 seconds", "https://youtu.be/JaZNYM3zAP0", null, 45),
+  ex("Lateral band walk", "3 sets × 15 each way", "https://youtu.be/y_bqFDQZSHQ", "B"),
+  ex("Single-leg calf raise", "3 sets × 12 each leg", "https://youtu.be/cR45zMnW654"),
+  ex("Press ups", "3 sets × 12 reps", "https://youtu.be/IODxDxX7oi4"),
+  ex("Sit ups", "3 sets × 15 reps", "https://youtu.be/1fbU_MkV7NE"),
+];
+const CORE_B = [
+  ex("Dead bug", "3 sets × 10 each side", "https://youtu.be/bxn9FBrt4-A"),
+  ex("Plank", "3 sets × 45 seconds", "https://youtu.be/7Zat7RFY52Y", null, 45),
+  ex("Side plank + hip dip", "3 sets × 10 each side", "https://youtu.be/iNbH7_edNI8", null, null),
+  ex("Bird dog", "3 sets × 10 each side", "https://youtu.be/ZdAHe9_HeEw"),
+  ex("Pallof press", "3 sets × 10 each side", "https://youtu.be/P16SQlmWj1o", "T"),
+  ex("Sit ups", "3 sets × 15 reps", "https://youtu.be/1fbU_MkV7NE"),
+  ex("Press ups", "3 sets × 12 reps", "https://youtu.be/IODxDxX7oi4"),
+];
+const COMBO_B = [
+  ex("Squat", "3 sets × 12 reps", "https://youtu.be/P-yaD24bUE8", "T"),
+  ex("Step-up (higher step)", "3 sets × 10 each leg", "https://youtu.be/vOiHvzj5XhA"),
+  ex("Reverse lunge", "3 sets × 10 each leg", "https://youtu.be/C_P3Q-PssvY"),
+  ex("Hollow body hold", "3 sets × 25 seconds", "https://youtu.be/0yPin8hSc8o", null, 25),
+  ex("Bear crawl hold", "3 sets × 25 seconds", "https://youtu.be/CILKLy84EDk", null, 25),
+  ex("Press ups", "3 sets × 12 reps", "https://youtu.be/IODxDxX7oi4"),
+  ex("Sit ups", "3 sets × 15 reps", "https://youtu.be/1fbU_MkV7NE"),
+];
+const LEGS_P = [
+  ex("Reverse lunge (unassisted)", "4 sets × 10 each leg", "https://youtu.be/C_P3Q-PssvY"),
+  ex("Romanian deadlift", "3 sets × 10 reps", "https://youtu.be/NaKsZos0bIY", "T"),
+  ex("Wall sit", "3 sets × 45 seconds", "https://youtu.be/JaZNYM3zAP0", null, 45),
+  ex("Lateral band walk", "3 sets × 15 each way", "https://youtu.be/y_bqFDQZSHQ", "B"),
+  ex("Single-leg calf raise", "3 sets × 12 each leg", "https://youtu.be/cR45zMnW654"),
+  ex("Press ups", "4 sets × 15 reps", "https://youtu.be/IODxDxX7oi4"),
+  ex("Sit ups", "4 sets × 20 reps", "https://youtu.be/1fbU_MkV7NE"),
+];
+const CORE_P = [
+  ex("Dead bug (slow)", "3 sets × 10 each side", "https://youtu.be/bxn9FBrt4-A"),
+  ex("Plank", "3 sets × 50 seconds", "https://youtu.be/7Zat7RFY52Y", null, 50),
+  ex("Side plank + hip dip", "3 sets × 12 each side", "https://youtu.be/iNbH7_edNI8", null, null),
+  ex("Bear crawl hold", "3 sets × 30 seconds", "https://youtu.be/CILKLy84EDk", null, 30),
+  ex("Pallof press", "3 sets × 12 each side", "https://youtu.be/P16SQlmWj1o", "T"),
+  ex("Sit ups", "4 sets × 20 reps", "https://youtu.be/1fbU_MkV7NE"),
+  ex("Press ups", "4 sets × 15 reps", "https://youtu.be/IODxDxX7oi4"),
+];
+const COMBO_P = [
+  ex("Bulgarian split squat", "3 sets × 8 each leg", "https://youtu.be/2C-uNgKwPLE"),
+  ex("Squat", "4 sets × 12 reps", "https://youtu.be/P-yaD24bUE8", "T"),
+  ex("Single-leg glute bridge", "3 sets × 10 each leg", "https://youtu.be/nuapk_-Q2BI"),
+  ex("Hollow body hold", "3 sets × 30 seconds", "https://youtu.be/0yPin8hSc8o", null, 30),
+  ex("Bird dog", "3 sets × 10 each side", "https://youtu.be/ZdAHe9_HeEw"),
+  ex("Press ups", "4 sets × 15 reps", "https://youtu.be/IODxDxX7oi4"),
+  ex("Sit ups", "4 sets × 20 reps", "https://youtu.be/1fbU_MkV7NE"),
+];
+const LEGS_FL = [
+  ex("Reverse lunge", "2 sets × 8 each leg", "https://youtu.be/C_P3Q-PssvY"),
+  ex("Glute bridge", "2 sets × 12 reps", "https://youtu.be/nuapk_-Q2BI"),
+  ex("Wall sit", "2 sets × 30 seconds", "https://youtu.be/JaZNYM3zAP0", null, 30),
+  ex("Lateral band walk", "2 sets × 12 each way", "https://youtu.be/y_bqFDQZSHQ", "B"),
+  ex("Calf raise", "2 sets × 12 reps", "https://youtu.be/Ux47hU-ePXs"),
+  ex("Press ups", "2 sets × 8 reps", "https://youtu.be/IODxDxX7oi4"),
+  ex("Sit ups", "2 sets × 10 reps", "https://youtu.be/1fbU_MkV7NE"),
+];
+const CORE_FL = [
+  ex("Dead bug", "2 sets × 8 each side", "https://youtu.be/bxn9FBrt4-A"),
+  ex("Plank", "2 sets × 30 seconds", "https://youtu.be/7Zat7RFY52Y", null, 30),
+  ex("Side plank", "2 sets × 20 seconds each side", "https://youtu.be/iNbH7_edNI8", null, 20),
+  ex("Bird dog", "2 sets × 8 each side", "https://youtu.be/ZdAHe9_HeEw"),
+  ex("Sit ups", "2 sets × 10 reps", "https://youtu.be/1fbU_MkV7NE"),
+  ex("Press ups", "2 sets × 8 reps", "https://youtu.be/IODxDxX7oi4"),
+];
+const COMBO_FL = [
+  ex("Squat", "2 sets × 10 reps", "https://youtu.be/P-yaD24bUE8"),
+  ex("Step-up", "2 sets × 8 each leg", "https://youtu.be/vOiHvzj5XhA"),
+  ex("Single-leg glute bridge", "2 sets × 8 each leg", "https://youtu.be/nuapk_-Q2BI"),
+  ex("Pallof press", "2 sets × 10 each side", "https://youtu.be/P16SQlmWj1o", "T"),
+  ex("Press ups", "2 sets × 8 reps", "https://youtu.be/IODxDxX7oi4"),
+  ex("Sit ups", "2 sets × 10 reps", "https://youtu.be/1fbU_MkV7NE"),
+];
+const LEGS_M = [
+  ex("Reverse lunge", "3 sets × 8 each leg", "https://youtu.be/C_P3Q-PssvY"),
+  ex("Romanian deadlift", "2 sets × 10 reps", "https://youtu.be/NaKsZos0bIY", "T"),
+  ex("Lateral band walk", "2 sets × 12 each way", "https://youtu.be/y_bqFDQZSHQ", "B"),
+  ex("Single-leg calf raise", "2 sets × 10 each leg", "https://youtu.be/cR45zMnW654"),
+  ex("Press ups", "3 sets × 10 reps", "https://youtu.be/IODxDxX7oi4"),
+  ex("Sit ups", "3 sets × 12 reps", "https://youtu.be/1fbU_MkV7NE"),
+];
+const CORE_M = [
+  ex("Dead bug", "2 sets × 10 each side", "https://youtu.be/bxn9FBrt4-A"),
+  ex("Plank", "2 sets × 45 seconds", "https://youtu.be/7Zat7RFY52Y", null, 45),
+  ex("Side plank", "2 sets × 30 seconds each side", "https://youtu.be/iNbH7_edNI8", null, 30),
+  ex("Bird dog", "2 sets × 10 each side", "https://youtu.be/ZdAHe9_HeEw"),
+  ex("Sit ups", "3 sets × 12 reps", "https://youtu.be/1fbU_MkV7NE"),
+  ex("Press ups", "3 sets × 10 reps", "https://youtu.be/IODxDxX7oi4"),
+];
+const COMBO_M = [
+  ex("Squat", "2 sets × 10 reps", "https://youtu.be/P-yaD24bUE8"),
+  ex("Single-leg glute bridge", "2 sets × 10 each leg", "https://youtu.be/nuapk_-Q2BI"),
+  ex("Pallof press", "2 sets × 10 each side", "https://youtu.be/P16SQlmWj1o", "T"),
+  ex("Hollow body hold", "2 sets × 25 seconds", "https://youtu.be/0yPin8hSc8o", null, 25),
+  ex("Press ups", "3 sets × 10 reps", "https://youtu.be/IODxDxX7oi4"),
+  ex("Sit ups", "3 sets × 12 reps", "https://youtu.be/1fbU_MkV7NE"),
+];
+const LEGS_TAP = [
+  ex("Reverse lunge", "2 sets × 6 each leg", "https://youtu.be/C_P3Q-PssvY"),
+  ex("Glute bridge", "2 sets × 10 reps", "https://youtu.be/nuapk_-Q2BI"),
+  ex("Wall sit", "2 sets × 20 seconds", "https://youtu.be/JaZNYM3zAP0", null, 20),
+  ex("Press ups", "2 sets × 8 reps", "https://youtu.be/IODxDxX7oi4"),
+  ex("Sit ups", "2 sets × 8 reps", "https://youtu.be/1fbU_MkV7NE"),
+];
+const CORE_TAP = [
+  ex("Dead bug", "2 sets × 6 each side", "https://youtu.be/bxn9FBrt4-A"),
+  ex("Plank", "2 sets × 20 seconds", "https://youtu.be/7Zat7RFY52Y", null, 20),
+  ex("Bird dog", "2 sets × 6 each side", "https://youtu.be/ZdAHe9_HeEw"),
+  ex("Sit ups", "2 sets × 8 reps", "https://youtu.be/1fbU_MkV7NE"),
+  ex("Press ups", "2 sets × 8 reps", "https://youtu.be/IODxDxX7oi4"),
+];
+
+function str(label, exs) { return { type:'strength', label, exercises: exs }; }
+function run(text, pace, detail)  { return { type:'run', text, pace: pace||null, detail: detail||null }; }
+function rest()           { return { type:'rest', text:'Rest' }; }
+function race()           { return { type:'race', text:'RACE DAY' }; }
+
+const PLAN = [
+  { wk:1,  dates:'13–19 Jul', tag:'foundation', tagLabel:'Foundation', sub:'Master the movements — slow and controlled',
+    days:[
+      { date:'13 Jul', ...str('Legs', LEGS_F) },
+      { date:'14 Jul', ...run('Intervals','tempo','10×150–200m shuttle runs at tempo pace with walking recoveries between each rep') },
+      { date:'15 Jul', ...str('Core', CORE_F) },
+      { date:'16 Jul', ...run('6 miles easy','easy','6 miles at easy pace. Should feel conversational — 1 min/mile slower than race pace.') },
+      { date:'17 Jul', ...str('Legs + Core', COMBO_F) },
+      { date:'18 Jul', ...run('Parkrun','easy','Parkrun at easy/comfortable effort. Not a race — use it as a relaxed 5k.') },
+      { date:'19 Jul', ...run('7 miles easy','easy','7 miles at easy pace. Long slow run — keep it comfortable throughout.') },
+    ]},
+  { wk:2,  dates:'20–26 Jul', tag:'foundation', tagLabel:'Foundation', sub:'',
+    days:[
+      { date:'20 Jul', ...str('Legs', LEGS_F) },
+      { date:'21 Jul', ...run('Tempo blocks','steady','2×20 mins at steady pace with 2×2 mins walk/gentle jog in between each 20 min block.') },
+      { date:'22 Jul', ...str('Core', CORE_F) },
+      { date:'23 Jul', ...run('7 miles easy','easy','7 miles easy. Possibly away — adapt route as needed. Keep it easy.') },
+      { date:'24 Jul', ...str('Legs + Core', COMBO_F) },
+      { date:'25 Jul', ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'26 Jul', ...run('7 miles easy','easy','7 miles at easy pace.') },
+    ]},
+  { wk:3,  dates:'27 Jul–2 Aug', tag:'build', tagLabel:'Build', sub:'Lunge with less chair — aim to reduce support each week',
+    days:[
+      { date:'27 Jul', ...str('Legs', LEGS_B) },
+      { date:'28 Jul', ...run('800m reps','tempo','6×800m at tempo pace with 2 min walk/jog recovery between each rep.') },
+      { date:'29 Jul', ...str('Core', CORE_B) },
+      { date:'30 Jul', ...run('5 miles steady','steady','5 miles at steady pace (race pace). Controlled effort — not all out.') },
+      { date:'31 Jul', ...str('Legs + Core', COMBO_B) },
+      { date:'1 Aug',  ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'2 Aug',  ...run('8 miles easy','easy','8 miles at easy pace. Building the long run distance.') },
+    ]},
+  { wk:4,  dates:'3–9 Aug', tag:'build', tagLabel:'Build', sub:'',
+    days:[
+      { date:'3 Aug',  ...str('Legs', LEGS_B) },
+      { date:'4 Aug',  ...run('7 miles easy','easy','7 miles easy. Possibly away — adapt route as needed.') },
+      { date:'5 Aug',  ...str('Core', CORE_B) },
+      { date:'6 Aug',  ...run('400m reps','tempo','8×400m at tempo pace with 2 min walk/jog recovery between each rep.') },
+      { date:'7 Aug',  ...str('Legs + Core', COMBO_B) },
+      { date:'8 Aug',  ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'9 Aug',  ...run('8 miles easy','easy','8 miles at easy pace.') },
+    ]},
+  { wk:5,  dates:'10–16 Aug', tag:'build', tagLabel:'Build', sub:'',
+    days:[
+      { date:'10 Aug', ...str('Legs', LEGS_B) },
+      { date:'11 Aug', ...run('Pyramid session','steady','Pyramid session on long course at steady pace. E.g. 1 min, 2 min, 3 min, 4 min, 5 min, 4 min, 3 min, 2 min, 1 min efforts with equal recovery jogs.') },
+      { date:'12 Aug', ...str('Core', CORE_B) },
+      { date:'13 Aug', ...run('6 miles steady','steady','6 miles at steady pace (race pace).') },
+      { date:'14 Aug', ...str('Legs + Core', COMBO_B) },
+      { date:'15 Aug', ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'16 Aug', ...run('9 miles easy','easy','9 miles at easy pace. Longest run so far.') },
+    ]},
+  { wk:6,  dates:'17–23 Aug', tag:'flex', tagLabel:'Flex Week 1', sub:'Recovery — 2 sets not 3, keep it easy',
+    days:[
+      { date:'17 Aug', ...str('Legs (light)', LEGS_FL) },
+      { date:'18 Aug', ...run('5–7km easy','easy','5–7km very easy run. Recovery week — keep it comfortable, no pushing.') },
+      { date:'19 Aug', ...str('Core (light)', CORE_FL) },
+      { date:'20 Aug', ...run('5–7km easy','easy','5–7km very easy run. Recovery week — keep it comfortable.') },
+      { date:'21 Aug', ...str('Combo (light)', COMBO_FL) },
+      { date:'22 Aug', ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'23 Aug', ...run('8 miles easy','easy','8 miles at easy pace.') },
+    ]},
+  { wk:7,  dates:'24–30 Aug', tag:'peak', tagLabel:'Peak', sub:'Unassisted lunges — if form breaks, use fingertip wall support only',
+    days:[
+      { date:'24 Aug', ...str('Legs', LEGS_P) },
+      { date:'25 Aug', ...run('7 miles steady','steady','7 miles at steady pace. Possibly away — adapt route as needed.') },
+      { date:'26 Aug', ...str('Core', CORE_P) },
+      { date:'27 Aug', ...run('Hill reps','tempo','Hill reps at tempo pace. Find a hill ~200–400m long. Run up at tempo effort, jog back down as recovery. Aim for 6–8 reps.') },
+      { date:'28 Aug', ...str('Legs + Core', COMBO_P) },
+      { date:'29 Aug', ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'30 Aug', ...run('10 miles easy','easy','10 miles at easy pace. Big milestone run.') },
+    ]},
+  { wk:8,  dates:'31 Aug–6 Sep', tag:'flex', tagLabel:'Flex Week 2', sub:'Recovery — 2 sets not 3',
+    days:[
+      { date:'31 Aug', ...str('Legs (light)', LEGS_FL) },
+      { date:'1 Sep',  ...run('5–7km easy','easy','5–7km very easy run. Second recovery week — let the body absorb the training.') },
+      { date:'2 Sep',  ...str('Core (light)', CORE_FL) },
+      { date:'3 Sep',  ...run('5–7km easy','easy','5–7km very easy run. Keep it easy.') },
+      { date:'4 Sep',  ...str('Combo (light)', COMBO_FL) },
+      { date:'5 Sep',  ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'6 Sep',  ...run('8 miles easy','easy','8 miles at easy pace.') },
+    ]},
+  { wk:9,  dates:'7–13 Sep', tag:'peak', tagLabel:'Peak', sub:'',
+    days:[
+      { date:'7 Sep',  ...str('Legs', LEGS_P) },
+      { date:'8 Sep',  ...run('Mile reps','tempo','3–4×mile reps at tempo pace. Jog 2–3 mins recovery between each mile. These should feel hard but controlled.') },
+      { date:'9 Sep',  ...str('Core', CORE_P) },
+      { date:'10 Sep', ...run('5 miles steady','steady','5 miles at steady pace (race pace).') },
+      { date:'11 Sep', ...str('Legs + Core', COMBO_P) },
+      { date:'12 Sep', ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'13 Sep', ...run('9 miles easy','easy','9 miles at easy pace.') },
+    ]},
+  { wk:10, dates:'14–20 Sep', tag:'peak', tagLabel:'Peak', sub:'',
+    days:[
+      { date:'14 Sep', ...str('Legs', LEGS_P) },
+      { date:'15 Sep', ...run('7 miles easy','easy','7 miles easy. Possibly away — adapt route as needed.') },
+      { date:'16 Sep', ...str('Core', CORE_P) },
+      { date:'17 Sep', ...run('400m reps','tempo','8×400m at tempo pace with 2 min walk/jog recovery between each rep.') },
+      { date:'18 Sep', ...str('Legs + Core', COMBO_P) },
+      { date:'19 Sep', ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'20 Sep', ...run('9 miles easy','easy','9 miles at easy pace.') },
+    ]},
+  { wk:11, dates:'21–27 Sep', tag:'peak', tagLabel:'Peak', sub:'Longest run of the plan on Sunday — legs should feel strong by now',
+    days:[
+      { date:'21 Sep', ...str('Legs', LEGS_P) },
+      { date:'22 Sep', ...run('800m reps','tempo','6×800m at tempo pace with 2 min walk/jog recovery between each rep.') },
+      { date:'23 Sep', ...str('Core', CORE_P) },
+      { date:'24 Sep', ...run('6 miles steady','steady','6 miles at steady pace.') },
+      { date:'25 Sep', ...str('Legs + Core', COMBO_P) },
+      { date:'26 Sep', ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'27 Sep', ...run('10+ miles easy','easy','10+ miles at easy pace. The longest run of the plan — take it steady and enjoy it.') },
+    ]},
+  { wk:12, dates:'28 Sep–4 Oct', tag:'maintain', tagLabel:'Maintain', sub:'Reduce strength volume — priority shifts to running quality',
+    days:[
+      { date:'28 Sep', ...str('Legs', LEGS_M) },
+      { date:'29 Sep', ...run('Intervals','tempo','10×150–200m shuttle runs at tempo pace with walking recoveries between each rep.') },
+      { date:'30 Sep', ...str('Core', CORE_M) },
+      { date:'1 Oct',  ...run('7 miles steady','steady','7 miles at steady pace.') },
+      { date:'2 Oct',  ...str('Combo', COMBO_M) },
+      { date:'3 Oct',  ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'4 Oct',  ...run('8 miles easy','easy','8 miles at easy pace.') },
+    ]},
+  { wk:13, dates:'5–11 Oct', tag:'taper', tagLabel:'Taper', sub:'Light strength only — no soreness going into race week',
+    days:[
+      { date:'5 Oct',  ...str('Legs', LEGS_M) },
+      { date:'6 Oct',  ...run('Tempo blocks','steady','2×20 mins at steady pace with 2×2 mins walk/gentle jog in between. Last quality session before taper.') },
+      { date:'7 Oct',  ...str('Core', CORE_M) },
+      { date:'8 Oct',  ...run('6 miles easy','easy','6 miles at easy pace. Keep it relaxed.') },
+      { date:'9 Oct',  ...str('Combo', COMBO_M) },
+      { date:'10 Oct', ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'11 Oct', ...run('6 miles easy','easy','6 miles at easy pace. Final long run before race week.') },
+    ]},
+  { wk:14, dates:'12–18 Oct', tag:'raceweek', tagLabel:'Race Week', sub:'Very light strength Mon only — rest and stay fresh',
+    days:[
+      { date:'12 Oct', ...str('Legs (very light)', LEGS_TAP) },
+      { date:'13 Oct', ...run('5–6km easy','easy','5–6km easy run. Keep it short and relaxed — legs should feel fresh.') },
+      { date:'14 Oct', ...str('Core (very light)', CORE_TAP) },
+      { date:'15 Oct', ...run('5–6km easy','easy','5–6km easy run. Last run before race day. Stay loose.') },
+      { date:'16 Oct', ...rest() },
+      { date:'17 Oct', ...run('Easy parkrun','easy','Very easy parkrun or rest (optional). Do not race it — just keep the legs moving.') },
+      { date:'18 Oct', ...race() },
+    ]},
+];
+
+const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const PHASES = {
+  1: 'Phase 1 — Foundation: master the movements',
+  3: 'Phase 2 — Build: increase reps, harder variations',
+  6: 'Recovery flex weeks',
+  7: 'Phase 3 — Peak: full load, Bulgarian split squats',
+  12:'Phase 4 — Maintain & Taper',
+};
+
+
+
+// ── open video ────────────────────────────────────────────────────────────────
+function openVideo(url) {
+  pauseSessionTimer();
+  const w = window.open(url, '_blank', 'noopener,noreferrer');
+  if (!w || w.closed || typeof w.closed === 'undefined') {
+    // popup blocked or sandboxed — show the URL so user can copy it
+    const msg = document.createElement('div');
+    msg.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border:1px solid #dde0e8;border-radius:12px;padding:20px 24px;z-index:9999;max-width:340px;box-shadow:0 20px 60px rgba(0,0,0,0.3);font-family:inherit';
+    msg.innerHTML = `
+      <div style="font-weight:700;font-size:14px;margin-bottom:8px">Open this URL in your browser</div>
+      <div style="font-size:11px;color:#4b5563;margin-bottom:12px">Copy and paste this into a new browser tab to watch the tutorial:</div>
+      <div style="background:#f0f1f4;border-radius:6px;padding:8px 10px;font-size:11px;font-family:monospace;word-break:break-all;color:#2563eb;margin-bottom:14px">${url}</div>
+      <div style="display:flex;gap:8px">
+        <button onclick="navigator.clipboard.writeText('${url}').then(()=>{this.textContent='Copied!'})" style="flex:1;background:#2563eb;color:#fff;border:none;border-radius:7px;padding:8px;font-size:12px;font-weight:600;cursor:pointer">Copy URL</button>
+        <button onclick="document.getElementById('videoModal').remove(); resumeSessionTimer();" style="flex:1;background:#f0f1f4;color:#111;border:1px solid #dde0e8;border-radius:7px;padding:8px;font-size:12px;font-weight:600;cursor:pointer">Close &amp; resume timer</button>
+      </div>
+    `;
+    msg.id = 'videoModal';
+    document.body.appendChild(msg);
+  }
+}
+
+// ── audio ─────────────────────────────────────────────────────────────────────
+let audioCtx = null;
+
+function getAudioCtx() {
+  if (!audioCtx) {
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+  }
+  return audioCtx;
+}
+
+function beep(freq, duration, volume, type, delay) {
+  const ctx = getAudioCtx();
+  if (!ctx) return;
+  const oscillator = ctx.createOscillator();
+  const gainNode = ctx.createGain();
+  oscillator.connect(gainNode);
+  gainNode.connect(ctx.destination);
+  oscillator.type = type || 'sine';
+  oscillator.frequency.value = freq;
+  gainNode.gain.setValueAtTime(0, ctx.currentTime + (delay||0));
+  gainNode.gain.linearRampToValueAtTime(volume||0.3, ctx.currentTime + (delay||0) + 0.01);
+  gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + (delay||0) + duration);
+  oscillator.start(ctx.currentTime + (delay||0));
+  oscillator.stop(ctx.currentTime + (delay||0) + duration + 0.05);
+}
+
+function playCountdownBeep() {
+  // short low beep for countdown ticks
+  beep(440, 0.1, 0.25, 'sine');
+}
+
+function playDoneSound() {
+  // three rising tones for completion
+  beep(523, 0.15, 0.3, 'sine', 0);
+  beep(659, 0.15, 0.3, 'sine', 0.18);
+  beep(784, 0.3,  0.3, 'sine', 0.36);
+}
+
+function playRestDoneSound() {
+  // two quick beeps — "go!"
+  beep(880, 0.1, 0.25, 'square', 0);
+  beep(880, 0.1, 0.25, 'square', 0.15);
+}
+
+// unlock audio on first user gesture
+document.addEventListener('click', () => { getAudioCtx(); }, { once: true });
+
+// ── completed state ───────────────────────────────────────────────────────────
+let completed = {};
+try { completed = JSON.parse(localStorage.getItem('gsr2026_completed') || '{}'); } catch(e) { completed = {}; }
+
+// ── session timing ────────────────────────────────────────────────────────────
+let sessionTimes = {};
+try { sessionTimes = JSON.parse(localStorage.getItem('gsr2026_times') || '{}'); } catch(e) { sessionTimes = {}; }
+
+let sessionStartTime = null;
+let elapsedInterval = null;
+let currentDayLabel = '';
+let pausedAt = null;
+let totalPausedMs = 0;
+
+function saveSessionTimes() {
+  try { localStorage.setItem('gsr2026_times', JSON.stringify(sessionTimes)); } catch(e) {}
+}
+
+function fmtElapsed(ms) {
+  const totalSec = Math.floor(ms / 1000);
+  const m = Math.floor(totalSec / 60);
+  const s = totalSec % 60;
+  return `${m}:${String(s).padStart(2,'0')}`;
+}
+
+function getNetElapsed() {
+  if (!sessionStartTime) return 0;
+  const raw = Date.now() - sessionStartTime;
+  const paused = totalPausedMs + (pausedAt ? Date.now() - pausedAt : 0);
+  return Math.max(0, raw - paused);
+}
+
+function pauseSessionTimer() {
+  if (pausedAt) return;
+  pausedAt = Date.now();
+  const el = document.getElementById('elapsed-display');
+  if (el) el.style.color = '#f59e0b';
+  const btn = document.getElementById('pause-resume-btn');
+  if (btn) { btn.textContent = '▶ Resume timer'; btn.style.background = '#fef3c7'; btn.style.color = '#92400e'; btn.style.borderColor = '#fde68a'; }
+}
+
+function resumeSessionTimer() {
+  if (!pausedAt) return;
+  totalPausedMs += Date.now() - pausedAt;
+  pausedAt = null;
+  const el = document.getElementById('elapsed-display');
+  if (el) el.style.color = '';
+  const btn = document.getElementById('pause-resume-btn');
+  if (btn) { btn.textContent = '⏸ Pause'; btn.style.background = ''; btn.style.color = ''; btn.style.borderColor = ''; }
+}
+
+function togglePause() {
+  if (pausedAt) resumeSessionTimer();
+  else pauseSessionTimer();
+}
+
+function fmtMins(ms) {
+  const m = Math.round(ms / 60000);
+  return m === 1 ? '1 min' : `${m} mins`;
+}
+
+// returns average duration in ms for sessions of the same label type (Legs / Core / Legs + Core etc)
+function getEstimate(label) {
+  const relevant = Object.entries(sessionTimes)
+    .filter(([k, v]) => v.label === label && v.durationMs)
+    .map(([k, v]) => v.durationMs);
+  if (!relevant.length) return null;
+  return relevant.reduce((a, b) => a + b, 0) / relevant.length;
+}
+
+function startElapsedClock() {
+  const el = document.getElementById('elapsed-display');
+  if (!el) return;
+  elapsedInterval = setInterval(() => {
+    if (sessionStartTime && el) {
+      el.textContent = fmtElapsed(getNetElapsed());
+    }
+  }, 1000);
+}
+
+function stopElapsedClock() {
+  clearInterval(elapsedInterval);
+  elapsedInterval = null;
+}
+
+function saveCompleted() {
+  try {
+    localStorage.setItem('gsr2026_completed', JSON.stringify(completed));
+    showSaveBanner();
+  } catch(e) {
+    alert('Could not save — your browser may have storage disabled.');
+  }
+}
+
+function showSaveBanner() {
+  let banner = document.getElementById('saveBanner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'saveBanner';
+    banner.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#16a34a;color:#fff;font-size:13px;font-weight:600;padding:10px 20px;border-radius:30px;box-shadow:0 4px 16px rgba(0,0,0,0.2);z-index:999;transition:opacity 0.4s;pointer-events:none';
+    document.body.appendChild(banner);
+  }
+  banner.textContent = '✓ Session saved';
+  banner.style.opacity = '1';
+  clearTimeout(banner._to);
+  banner._to = setTimeout(() => banner.style.opacity = '0', 2000);
+}
+
+// ── times panel ──────────────────────────────────────────────────────────────
+function showTimesPanel() {
+  const panel = document.getElementById('timesPanel');
+  const body  = document.getElementById('timesPanelBody');
+  panel.style.display = 'flex';
+
+  const entries = Object.entries(sessionTimes).sort((a,b) => {
+    return new Date(a[1].completedAt || 0) - new Date(b[1].completedAt || 0);
+  });
+
+  if (!entries.length) {
+    body.innerHTML = '<div style="text-align:center;color:#9ca3af;padding:30px 0;font-size:14px">No sessions completed yet.<br>Complete a strength session to see your times here.</div>';
+    return;
+  }
+
+  // group by label for averages
+  const byLabel = {};
+  entries.forEach(([k, v]) => {
+    if (!byLabel[v.label]) byLabel[v.label] = [];
+    if (v.durationMs) byLabel[v.label].push(v.durationMs);
+  });
+
+  let html = '';
+
+  // summary averages
+  html += '<div style="background:#eff6ff;border-radius:10px;padding:12px 14px;margin-bottom:16px;border:1px solid #bfdbfe">';
+  html += '<div style="font-size:11px;font-weight:700;color:#1d4ed8;margin-bottom:8px;letter-spacing:0.5px;text-transform:uppercase">Averages by session type</div>';
+  Object.entries(byLabel).forEach(([label, times]) => {
+    if (!times.length) return;
+    const avg = times.reduce((a,b)=>a+b,0)/times.length;
+    const min = Math.min(...times);
+    const max = Math.max(...times);
+    html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #bfdbfe;font-size:12px">
+      <span style="font-weight:600;color:#111827">${label}</span>
+      <span style="color:#1d4ed8;font-family:monospace">avg ${fmtMins(avg)} &nbsp;<span style="color:#9ca3af;font-size:10px">(${fmtMins(min)}–${fmtMins(max)})</span></span>
+    </div>`;
+  });
+  html += '</div>';
+
+  // individual sessions
+  html += '<div style="font-size:11px;font-weight:700;color:#4b5563;margin-bottom:8px;letter-spacing:0.5px;text-transform:uppercase">All sessions</div>';
+  entries.forEach(([key, data]) => {
+    if (!data.durationMs) return;
+    const date = data.completedAt ? new Date(data.completedAt).toLocaleDateString('en-GB', {day:'numeric',month:'short'}) : '—';
+    const mins = fmtMins(data.durationMs);
+    const exact = fmtElapsed(data.durationMs);
+    html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f1f4;font-size:12px">
+      <div>
+        <div style="font-weight:600;color:#111827">${data.label}</div>
+        <div style="color:#9ca3af;font-size:10px">${date}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-weight:700;font-family:monospace;color:#2563eb">${exact}</div>
+        <div style="color:#9ca3af;font-size:10px">${mins}</div>
+      </div>
+    </div>`;
+  });
+
+  body.innerHTML = html;
+}
+
+function closeTimesPanel() {
+  document.getElementById('timesPanel').style.display = 'none';
+}
+
+// ── render plan ───────────────────────────────────────────────────────────────
+function renderPlan() {
+  const container = document.getElementById('planContainer');
+  container.innerHTML = '';
+
+  PLAN.forEach(week => {
+    if (PHASES[week.wk]) {
+      const ph = document.createElement('div');
+      ph.className = 'phase-label';
+      ph.textContent = PHASES[week.wk];
+      container.appendChild(ph);
+    }
+
+    const block = document.createElement('div');
+    block.className = 'week-block';
+
+    // header
+    const hdr = document.createElement('div');
+    hdr.className = 'week-header';
+    hdr.innerHTML = `
+      <div class="week-header-left">
+        <span class="week-num">WK ${week.wk}</span>
+        <span class="week-dates">${week.dates}</span>
+        <span class="week-phase-tag tag-${week.tag}">${week.tagLabel}</span>
+      </div>
+      ${week.sub ? `<span class="week-sub">${week.sub}</span>` : ''}
+    `;
+    block.appendChild(hdr);
+
+    // days
+    const grid = document.createElement('div');
+    grid.className = 'days-grid';
+
+    week.days.forEach((day, di) => {
+      const cell = document.createElement('div');
+      const key = `${week.wk}-${di}`;
+      const isDone = completed[key];
+
+      let cellClass = 'day-cell';
+      if (day.type === 'strength') cellClass += ' strength-cell clickable';
+      else if (day.type === 'run') cellClass += ' run-cell';
+      else if (day.type === 'race') cellClass += ' race-cell';
+      else cellClass += ' rest-cell';
+      if (isDone) cellClass += ' completed';
+
+      cell.className = cellClass;
+
+      const typeLabel = day.type === 'strength' ? `<div class="day-type-label type-strength">Strength</div>`
+                      : day.type === 'run'      ? `<div class="day-type-label type-run">Run</div>`
+                      : day.type === 'race'     ? `<div class="day-type-label type-race">Race Day</div>`
+                      : `<div class="day-type-label type-rest">Rest</div>`;
+
+      let preview = '';
+      if (day.type === 'strength') {
+        const timeData = sessionTimes[key];
+        const isDoneCell = completed[key];
+        let timeHtml = '';
+        if (isDoneCell && timeData && timeData.durationMs) {
+          timeHtml = `<div class="click-hint-inline" style="color:var(--green);font-size:9px">⏱ ${fmtMins(timeData.durationMs)}</div>`;
+        } else if (!isDoneCell) {
+          const est = getEstimate(day.label);
+          if (est) timeHtml = `<div class="click-hint-inline" style="color:var(--text3);font-size:9px">Est. ~${fmtMins(est)}</div>`;
+        }
+        preview = `<ul class="day-preview">${day.exercises.map(e=>`<li>${e.name}</li>`).join('')}</ul>${timeHtml}`;
+      } else if (day.type === 'run' || day.type === 'race') {
+        const paceHtml = day.pace ? `<div class="pace-badge pace-${day.pace}">${day.pace === 'easy' ? 'Easy · 9:00/mi' : day.pace === 'steady' ? 'Steady · 8:00/mi' : day.pace === 'tempo' ? 'Tempo · 7:30/mi' : day.pace === 'mixed' ? 'Mixed paces' : day.pace}</div>` : '';
+        preview = `<div class="day-preview" style="white-space:pre-line;font-size:9px;color:var(--text)">${day.text}</div>${paceHtml}`;
+      }
+
+      cell.innerHTML = `
+        <div class="day-name">${DAY_NAMES[di]}</div>
+        <div class="day-date">${day.date}</div>
+        ${typeLabel}
+        ${preview}
+        ${day.type === 'strength' ? '<div class="click-hint-inline">tap →</div>' : (day.type === 'run' && day.detail ? '<div class="click-hint-inline" style="color:var(--green)">tap →</div>' : '')}
+      `;
+
+      if (day.type === 'strength') {
+        cell.addEventListener('click', () => openModal(week, day, di, key));
+      } else if (day.type === 'run' && day.detail) {
+        cell.style.cursor = 'pointer';
+        cell.addEventListener('click', () => openRunModal(week, day));
+      }
+
+      grid.appendChild(cell);
+    });
+
+    block.appendChild(grid);
+    container.appendChild(block);
+  });
+}
+
+// ── modal state ───────────────────────────────────────────────────────────────
+let currentKey = null;
+let currentExercises = [];
+// setsDone[exIdx][setIdx] = true/false
+let setsDone = [];
+// active timers: map of "ex-set" -> intervalId
+let activeTimers = {};
+let activeRestTimers = {};
+
+// parse "3 sets × 12 reps" -> { count: 3, desc: "12 reps" }
+function parseSets(setsStr) {
+  const m = setsStr.match(/^(\d+)\s+sets?\s*[×x]\s*(.+)$/i);
+  if (m) return { count: parseInt(m[1]), desc: m[2].trim() };
+  return { count: 1, desc: setsStr };
+}
+
+function fmtTime(sec) {
+  const m = String(Math.floor(sec/60)).padStart(2,'0');
+  const s = String(sec%60).padStart(2,'0');
+  return `${m}:${s}`;
+}
+
+// ── open modal ────────────────────────────────────────────────────────────────
+function openModal(week, day, di, key) {
+  currentKey = key;
+  currentExercises = day.exercises;
+  clearAllTimers();
+
+  // init sets state
+  setsDone = currentExercises.map(ex => {
+    const { count } = parseSets(ex.sets);
+    return new Array(count).fill(false);
+  });
+
+  currentDayLabel = day.label;
+  sessionStartTime = Date.now();
+  pausedAt = null;
+  totalPausedMs = 0;
+
+  document.getElementById('modalTitle').textContent = `${day.label} — ${day.date}`;
+
+  // estimate
+  const est = getEstimate(day.label);
+  const estHtml = est ? `<span id="est-chip" style="font-size:10px;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;padding:2px 8px;border-radius:20px;margin-left:8px">Est. ${fmtMins(est)}</span>` : '';
+  document.getElementById('modalSubtitle').innerHTML =
+    `Week ${week.wk} · ${week.tagLabel}${week.sub ? ' · ' + week.sub : ''}${estHtml}`;
+
+  renderModalBody();
+  updateProgress();
+  startElapsedClock();
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+// ── render modal body ─────────────────────────────────────────────────────────
+function renderModalBody() {
+  const body = document.getElementById('modalBody');
+  body.innerHTML = '';
+
+  const intro = document.createElement('div');
+  intro.className = 'session-intro';
+  intro.innerHTML = `Tap any exercise to expand it. Complete each set individually — tap exercises in any order. Rest <strong>45–60s</strong> between sets.`;
+  body.appendChild(intro);
+
+  currentExercises.forEach((exercise, ei) => {
+    body.appendChild(buildExCard(exercise, ei));
+  });
+
+  // mid-session save button (always visible)
+  const saveBtn = document.createElement('div');
+  saveBtn.style.cssText = 'padding:12px 0 4px;';
+  saveBtn.innerHTML = `<button class="btn btn-ghost btn-full" style="font-size:12px;color:var(--text2)" onclick="saveSessionProgress()">💾 Save progress &amp; close</button>`;
+  body.appendChild(saveBtn);
+
+  const complete = document.createElement('div');
+  complete.className = 'session-complete';
+  complete.id = 'sessionComplete';
+  complete.innerHTML = `
+    <div class="complete-icon">💪</div>
+    <div class="complete-title">Session done!</div>
+    <div id="session-time-display" style="font-size:28px;font-weight:700;font-family:var(--font-mono);color:var(--accent);margin:6px 0 4px"></div>
+    <div class="complete-sub">Great work. Rest up — your legs will thank you tomorrow.</div>
+    <button class="btn btn-success btn-full" onclick="finishAndSave()">Save &amp; mark complete ✓</button>
+  `;
+  body.appendChild(complete);
+}
+
+function buildExCard(exercise, ei) {
+  const { count, desc } = parseSets(exercise.sets);
+  const card = document.createElement('div');
+  card.className = 'ex-card';
+  card.id = `ex-card-${ei}`;
+
+  const eqHtml = exercise.eq ? `<div class="ex-eq">⚡ ${EQ[exercise.eq]}</div>` : '';
+
+  card.innerHTML = `
+    <div class="ex-card-header" onclick="toggleExCard(${ei})">
+      <div class="ex-num">${ei+1}</div>
+      <div class="ex-info">
+        <div class="ex-name">${exercise.name}</div>
+        <div class="ex-sets-label">${exercise.sets}</div>
+        ${eqHtml}
+      </div>
+      <div class="ex-header-right">
+        <button class="ex-yt" onclick="event.stopPropagation(); openVideo('${exercise.url}')">▶ Watch</button>
+        <span class="ex-chevron">▾</span>
+      </div>
+    </div>
+    <div class="ex-body" id="ex-body-${ei}">
+      <div class="sets-list" id="sets-list-${ei}"></div>
+    </div>
+  `;
+
+  // build set rows after inserting
+  setTimeout(() => {
+    const list = document.getElementById(`sets-list-${ei}`);
+    if (!list) return;
+    for (let si = 0; si < count; si++) {
+      list.appendChild(buildSetRow(exercise, ei, si, count, desc));
+    }
+  }, 0);
+
+  return card;
+}
+
+function buildSetRow(exercise, ei, si, totalSets, repDesc) {
+  const row = document.createElement('div');
+  row.className = 'set-row';
+  row.id = `set-${ei}-${si}`;
+
+  const timerSec = exercise.timerSec;
+  const timerId = `timer-${ei}-${si}`;
+  const restId  = `rest-${ei}-${si}`;
+
+  let bodyHtml = '';
+  if (timerSec) {
+    bodyHtml = `
+      <div class="set-timer">
+        <div class="set-timer-display" id="${timerId}">${fmtTime(timerSec)}</div>
+        <div class="set-timer-label">Hold for ${timerSec} seconds</div>
+        <div class="set-timer-btns">
+          <button class="btn btn-primary btn-sm" id="${timerId}-btn" onclick="startSetTimer('${ei}','${si}',${timerSec})">Start timer</button>
+          <button class="btn btn-ghost btn-sm" onclick="resetSetTimer('${ei}','${si}',${timerSec})">Reset</button>
+        </div>
+      </div>
+    `;
+  } else {
+    bodyHtml = `<div style="font-size:12px;color:var(--text2);margin-bottom:8px">${repDesc}</div>`;
+  }
+
+  row.innerHTML = `
+    <div class="set-row-header">
+      <span class="set-label">Set ${si+1} of ${totalSets}</span>
+      <span class="set-rep-label">${repDesc}</span>
+    </div>
+    <div class="set-body">
+      ${bodyHtml}
+      <div class="rest-bar" id="${restId}">
+        <span class="rest-bar-label">Rest timer</span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="rest-bar-display" id="${restId}-display">0:45</span>
+          <button class="btn btn-ghost btn-sm" onclick="startRestTimer('${ei}','${si}')">Start</button>
+        </div>
+      </div>
+      <div class="set-actions">
+        <button class="btn btn-success" onclick="markSetDone('${ei}','${si}')">Done ✓</button>
+        <button class="btn btn-undo btn-sm" onclick="undoSet('${ei}','${si}')" style="display:none" id="undo-${ei}-${si}">Undo</button>
+      </div>
+    </div>
+  `;
+
+  return row;
+}
+
+// ── expand/collapse exercise card ─────────────────────────────────────────────
+function toggleExCard(ei) {
+  const card = document.getElementById(`ex-card-${ei}`);
+  if (!card) return;
+  const isOpen = card.classList.contains('ex-open');
+  // close all
+  document.querySelectorAll('.ex-card').forEach(c => c.classList.remove('ex-open'));
+  if (!isOpen) {
+    card.classList.add('ex-open');
+    // open first incomplete set
+    openFirstIncompleteSet(ei);
+    setTimeout(() => card.scrollIntoView({ behavior:'smooth', block:'nearest' }), 100);
+  }
+}
+
+function openFirstIncompleteSet(ei) {
+  const sets = setsDone[ei];
+  for (let si = 0; si < sets.length; si++) {
+    if (!sets[si]) {
+      activateSetRow(ei, si);
+      return;
+    }
+  }
+}
+
+function activateSetRow(ei, si) {
+  // deactivate all in this exercise
+  const list = document.getElementById(`sets-list-${ei}`);
+  if (!list) return;
+  list.querySelectorAll('.set-row').forEach(r => r.classList.remove('set-active'));
+  const row = document.getElementById(`set-${ei}-${si}`);
+  if (row && !row.classList.contains('set-done')) {
+    row.classList.add('set-active');
+  }
+}
+
+// ── mark set done ─────────────────────────────────────────────────────────────
+function markSetDone(ei, si) {
+  ei = parseInt(ei); si = parseInt(si);
+  clearSetTimer(ei, si);
+  setsDone[ei][si] = true;
+
+  const row = document.getElementById(`set-${ei}-${si}`);
+  if (row) { row.classList.remove('set-active'); row.classList.add('set-done'); }
+
+  // show undo
+  const undoBtn = document.getElementById(`undo-${ei}-${si}`);
+  if (undoBtn) undoBtn.style.display = 'inline-flex';
+
+  updateExCard(ei);
+  updateProgress();
+  checkAllDone();
+
+  // auto-open next incomplete set in same exercise
+  const nextSi = si + 1;
+  if (nextSi < setsDone[ei].length && !setsDone[ei][nextSi]) {
+    // show rest bar on next set
+    setTimeout(() => {
+      activateSetRow(ei, nextSi);
+      const restBar = document.getElementById(`rest-${ei}-${nextSi}`);
+      if (restBar) restBar.classList.add('show');
+    }, 200);
+  }
+}
+
+function undoSet(ei, si) {
+  ei = parseInt(ei); si = parseInt(si);
+  setsDone[ei][si] = false;
+  const row = document.getElementById(`set-${ei}-${si}`);
+  if (row) { row.classList.remove('set-done'); row.classList.add('set-active'); }
+  const undoBtn = document.getElementById(`undo-${ei}-${si}`);
+  if (undoBtn) undoBtn.style.display = 'none';
+  const restBar = document.getElementById(`rest-${ei}-${si}`);
+  if (restBar) restBar.classList.remove('show');
+  updateExCard(ei);
+  updateProgress();
+  // hide complete screen if it was showing
+  const comp = document.getElementById('sessionComplete');
+  if (comp) comp.classList.remove('show');
+}
+
+function updateExCard(ei) {
+  const card = document.getElementById(`ex-card-${ei}`);
+  if (!card) return;
+  const allDone = setsDone[ei].every(Boolean);
+  if (allDone) {
+    card.classList.add('ex-allset');
+    card.classList.remove('ex-open');
+    // auto-open next exercise
+    const nextEi = ei + 1;
+    if (nextEi < currentExercises.length && !setsDone[nextEi].every(Boolean)) {
+      setTimeout(() => toggleExCard(nextEi), 300);
+    }
+  } else {
+    card.classList.remove('ex-allset');
+  }
+}
+
+// ── timers ────────────────────────────────────────────────────────────────────
+function startSetTimer(ei, si, totalSec) {
+  const key = `${ei}-${si}`;
+  if (activeTimers[key]) return;
+  let sec = totalSec;
+  const display = document.getElementById(`timer-${ei}-${si}`);
+  const btn = document.getElementById(`timer-${ei}-${si}-btn`);
+  if (btn) { btn.textContent = 'Running…'; btn.disabled = true; }
+
+  activeTimers[key] = setInterval(() => {
+    sec--;
+    if (display) {
+      display.textContent = fmtTime(sec);
+      display.className = 'set-timer-display' + (sec <= 5 && sec > 0 ? ' warning' : sec <= 0 ? ' done-t' : '');
+    }
+    // audio cues
+    if (sec > 0 && sec <= 5) playCountdownBeep();
+    if (sec <= 0) {
+      clearSetTimer(ei, si);
+      if (display) display.textContent = 'Done!';
+      if (btn) { btn.textContent = 'Start timer'; btn.disabled = false; }
+      playDoneSound();
+      // auto-show rest bar
+      const restBar = document.getElementById(`rest-${ei}-${si}`);
+      if (restBar) restBar.classList.add('show');
+    }
+  }, 1000);
+}
+
+function resetSetTimer(ei, si, totalSec) {
+  clearSetTimer(ei, si);
+  const display = document.getElementById(`timer-${ei}-${si}`);
+  if (display) { display.textContent = fmtTime(totalSec); display.className = 'set-timer-display'; }
+  const btn = document.getElementById(`timer-${ei}-${si}-btn`);
+  if (btn) { btn.textContent = 'Start timer'; btn.disabled = false; }
+}
+
+function clearSetTimer(ei, si) {
+  const key = `${ei}-${si}`;
+  if (activeTimers[key]) { clearInterval(activeTimers[key]); delete activeTimers[key]; }
+}
+
+function startRestTimer(ei, si) {
+  const key = `${ei}-${si}`;
+  if (activeRestTimers[key]) { clearInterval(activeRestTimers[key]); delete activeRestTimers[key]; }
+  let sec = 45;
+  const display = document.getElementById(`rest-${ei}-${si}-display`);
+  if (display) display.textContent = fmtTime(sec);
+  activeRestTimers[key] = setInterval(() => {
+    sec--;
+    if (display) display.textContent = sec > 0 ? fmtTime(sec) : 'Go! 🏃';
+    if (sec > 0 && sec <= 3) playCountdownBeep();
+    if (sec <= 0) {
+      clearInterval(activeRestTimers[key]);
+      delete activeRestTimers[key];
+      playRestDoneSound();
+    }
+  }, 1000);
+}
+
+function clearAllTimers() {
+  Object.values(activeTimers).forEach(clearInterval);
+  Object.values(activeRestTimers).forEach(clearInterval);
+  activeTimers = {};
+  activeRestTimers = {};
+}
+
+// ── progress ──────────────────────────────────────────────────────────────────
+function updateProgress() {
+  const totalSets = setsDone.reduce((a, s) => a + s.length, 0);
+  const doneSets  = setsDone.reduce((a, s) => a + s.filter(Boolean).length, 0);
+  const pct = totalSets > 0 ? (doneSets / totalSets) * 100 : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${doneSets} / ${totalSets} sets`;
+}
+
+function checkAllDone() {
+  const allDone = setsDone.every(ex => ex.every(Boolean));
+  if (allDone) {
+    const comp = document.getElementById('sessionComplete');
+    if (comp) {
+      // show live time
+      const timeEl = document.getElementById('session-time-display');
+      if (timeEl && sessionStartTime) {
+        timeEl.textContent = fmtElapsed(getNetElapsed());
+      }
+      comp.classList.add('show');
+      setTimeout(() => comp.scrollIntoView({ behavior:'smooth', block:'nearest' }), 300);
+    }
+  }
+}
+
+// ── session complete ───────────────────────────────────────────────────────────
+function finishAndSave() {
+  // show final time on the complete screen before saving
+  const el = document.getElementById('session-time-display');
+  if (el && sessionStartTime) {
+    el.textContent = fmtElapsed(getNetElapsed());
+  }
+  markSessionDone();
+}
+
+function saveSessionProgress() {
+  // save partial progress — just records that it's been touched
+  if (currentKey) {
+    // store partial setsDone state too
+    try {
+      localStorage.setItem('gsr2026_partial_' + currentKey, JSON.stringify(setsDone));
+    } catch(e) {}
+    showSaveBanner();
+  }
+  closeModal();
+}
+
+function markSessionDone() {
+  if (currentKey) {
+    completed[currentKey] = true;
+    // record timing
+    const durationMs = sessionStartTime ? getNetElapsed() : null;
+    sessionTimes[currentKey] = {
+      label: currentDayLabel,
+      durationMs,
+      completedAt: new Date().toISOString(),
+    };
+    saveSessionTimes();
+    // clear any partial state
+    try { localStorage.removeItem('gsr2026_partial_' + currentKey); } catch(e) {}
+    saveCompleted();
+    renderPlan();
+  }
+  closeModal();
+}
+
+function openRunModal(week, day) {
+  const paceLabels = { easy:'Easy · 9:00/mi', steady:'Steady · 8:00/mi', tempo:'Tempo · 7:30/mi' };
+  const paceColors = { easy:'#15803d', steady:'#1d4ed8', tempo:'#991b1b' };
+  const paceBgs    = { easy:'#dcfce7', steady:'#dbeafe', tempo:'#fee2e2' };
+  const pace = day.pace || 'easy';
+
+  document.getElementById('modalTitle').textContent = `${day.text} — ${day.date}`;
+  document.getElementById('modalSubtitle').textContent = `Week ${week.wk} · ${week.tagLabel}`;
+  document.getElementById('progressFill').style.width = '0%';
+  document.getElementById('progressText').textContent = '';
+
+  const body = document.getElementById('modalBody');
+  body.innerHTML = `
+    <div style="margin-bottom:14px">
+      <span style="display:inline-block;background:${paceBgs[pace]};color:${paceColors[pace]};font-size:13px;font-weight:700;padding:5px 14px;border-radius:20px">${paceLabels[pace] || pace}</span>
+    </div>
+    <div style="background:var(--surface2);border-radius:10px;padding:16px;border:1px solid var(--border);font-size:14px;line-height:1.7;color:var(--text)">
+      ${day.detail}
+    </div>
+    <div style="margin-top:16px;background:#eff6ff;border-radius:10px;padding:14px;border:1px solid #bfdbfe">
+      <div style="font-size:11px;font-weight:700;color:#1d4ed8;margin-bottom:8px;letter-spacing:0.5px;text-transform:uppercase">Pace reference</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center">
+        <div style="background:#dcfce7;border-radius:7px;padding:8px;"><div style="font-size:10px;color:#15803d;font-weight:700">EASY</div><div style="font-size:14px;font-weight:700;color:#15803d">9:00/mi</div><div style="font-size:9px;color:#15803d">5:35/km</div></div>
+        <div style="background:#dbeafe;border-radius:7px;padding:8px;"><div style="font-size:10px;color:#1d4ed8;font-weight:700">STEADY</div><div style="font-size:14px;font-weight:700;color:#1d4ed8">8:00/mi</div><div style="font-size:9px;color:#1d4ed8">4:58/km</div></div>
+        <div style="background:#fee2e2;border-radius:7px;padding:8px;"><div style="font-size:10px;color:#991b1b;font-weight:700">TEMPO</div><div style="font-size:14px;font-weight:700;color:#991b1b">7:30/mi</div><div style="font-size:9px;color:#991b1b">4:39/km</div></div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  clearAllTimers();
+  stopElapsedClock();
+  sessionStartTime = null;
+  pausedAt = null;
+  totalPausedMs = 0;
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  currentKey = null;
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// init
+renderPlan();
+</script>
+</body>
+</html>
