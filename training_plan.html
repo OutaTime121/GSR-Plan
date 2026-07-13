@@ -530,13 +530,11 @@
     <span class="header-badge" style="background:rgba(255,255,255,0.2);color:#fff">Sub 1:20 target</span>
     <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.4);font-family:monospace;align-self:flex-start;padding-top:2px">v1.2</span>
   </div>
-  <div class="header-meta" style="display:flex;align-items:center;gap:10px">
+  <div class="header-meta">
     <span class="pace-chip">Easy <span>9:00/mi</span></span>
     <span class="pace-chip">Steady <span>8:00/mi</span></span>
     <span class="pace-chip">Tempo <span>7:30/mi</span></span>
     <span class="pace-chip">Race day <span>18 Oct 2026</span></span>
-    <button onclick="showSettings()" style="margin-left:auto;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;flex-shrink:0">⚙ Settings</button>
-    <button onclick="showTimesPanel()" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;flex-shrink:0">⏱ Times</button>
   </div>
 </header>
 
@@ -552,6 +550,17 @@
 </div>
 
 <div class="plan-container" id="planContainer"></div>
+
+<!-- Times panel -->
+<div id="timesPanel" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#fff;border-radius:16px;width:100%;max-width:460px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.2)">
+    <div style="padding:18px 20px 14px;border-bottom:1px solid #dde0e8;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;border-radius:16px 16px 0 0">
+      <div><div style="font-size:16px;font-weight:700;color:#111827">⏱ Session times</div><div style="font-size:11px;color:#4b5563;margin-top:2px">Your completed strength sessions</div></div>
+      <button onclick="closeTimesPanel()" style="background:#f0f1f4;border:1px solid #dde0e8;color:#4b5563;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;font-family:inherit">✕</button>
+    </div>
+    <div id="timesPanelBody" style="padding:16px 20px 24px"></div>
+  </div>
+</div>
 
 <!-- Settings panel -->
 <div id="settingsPanel" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;padding:20px">
