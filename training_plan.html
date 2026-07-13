@@ -533,7 +533,7 @@
   <div class="header-top">
     <h1>Great South Run 2026</h1>
     <span class="header-badge" style="background:rgba(255,255,255,0.2);color:#fff">Sub 1:20 target</span>
-    <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.4);font-family:monospace;align-self:flex-start;padding-top:2px">v1.5</span>
+    <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.4);font-family:monospace;align-self:flex-start;padding-top:2px">v1.6</span>
   </div>
   <div class="header-meta">
     <span class="pace-chip">Easy <span>9:00/mi</span></span>
@@ -1474,34 +1474,13 @@ function closeSettings() {
 }
 
 function setSetting(key, value) {
-  // handle booleans passed as strings from HTML
-  if (value === 'true') value = true;
-  if (value === 'false') value = false;
-  settings[key] = value;
+  settings[key] = parseInt(value) || 0;
   saveSettings();
-  updateSettingButtons();
+  renderSettingButtons();
+  renderSettingLabels();
 }
 
-function updateSettingButtons() {
-  document.querySelectorAll('.setting-btn').forEach(btn => {
-    const key = btn.dataset.setting;
-    let val = btn.dataset.val;
-    // type coerce
-    if (val === 'true') val = true;
-    else if (val === 'false') val = false;
-    else if (!isNaN(val)) val = Number(val);
-    const isActive = settings[key] === val;
-    btn.style.background = isActive ? '#2563eb' : '#f0f1f4';
-    btn.style.color = isActive ? '#fff' : '#4b5563';
-    btn.style.border = isActive ? '1px solid #2563eb' : '1px solid #dde0e8';
-    btn.style.borderRadius = '8px';
-    btn.style.padding = '7px 14px';
-    btn.style.fontSize = '13px';
-    btn.style.fontWeight = '600';
-    btn.style.cursor = 'pointer';
-    btn.style.fontFamily = 'inherit';
-  });
-}
+
 
 // ── render plan ───────────────────────────────────────────────────────────────
 function renderPlan() {
