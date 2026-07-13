@@ -534,7 +534,7 @@
   <div class="header-top">
     <h1>Great South Run 2026</h1>
     <span class="header-badge" style="background:rgba(255,255,255,0.2);color:#fff">Sub 1:20 target</span>
-    <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.4);font-family:monospace;align-self:flex-start;padding-top:2px">v1.8</span>
+    <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.4);font-family:monospace;align-self:flex-start;padding-top:2px">v1.9</span>
   </div>
   <div class="header-meta">
     <span class="pace-chip">Easy <span>9:00/mi</span></span>
@@ -1117,33 +1117,37 @@ function saveSettings() {
   try { localStorage.setItem('gsr2026_settings', JSON.stringify(settings)); } catch(e) {}
 }
 
-// ── wake lock (NoSleep.js) ────────────────────────────────────────────────────
+// ── keep screen on (NoSleep.js) ──────────────────────────────────────────────
 let noSleep = null;
 
-function getNoSleep() {
+function initNoSleep() {
   if (!noSleep && typeof NoSleep !== 'undefined') {
     noSleep = new NoSleep();
   }
-  return noSleep;
 }
 
-async function requestWakeLock() {
+// Must be called synchronously inside a user gesture (tap)
+function enableNoSleep() {
   if (!settings.screenWakeLock) return;
-  try {
-    const ns = getNoSleep();
-    if (ns) await ns.enable();
-  } catch(e) { console.log('NoSleep enable failed:', e.message); }
+  initNoSleep();
+  if (noSleep) {
+    noSleep.enable();
+    console.log('NoSleep enabled');
+  }
 }
 
-async function releaseWakeLock() {
-  try {
-    const ns = getNoSleep();
-    if (ns) ns.disable();
-  } catch(e) {}
+function disableNoSleep() {
+  if (noSleep) {
+    noSleep.disable();
+    console.log('NoSleep disabled');
+  }
 }
+
+function requestWakeLock()  { enableNoSleep(); }
+function releaseWakeLock()  { disableNoSleep(); }
 
 document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible' && settings.screenWakeLock) requestWakeLock();
+  if (document.visibilityState === 'visible' && settings.screenWakeLock) enableNoSleep();
 });
 
 // ── settings ──────────────────────────────────────────────────────────────────
@@ -1816,6 +1820,7 @@ function activateSetRow(ei, si) {
 // ── mark set done ─────────────────────────────────────────────────────────────
 function markSetDone(ei, si) {
   ei = parseInt(ei); si = parseInt(si);
+  enableNoSleep(); // reinforce on every tap
   clearSetTimer(ei, si);
   setsDone[ei][si] = true;
 
