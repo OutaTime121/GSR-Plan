@@ -498,7 +498,7 @@
   .setting-btn {
     padding: 8px 16px;
     border-radius: 8px;
-    border: 1px solid var(--border);
+    border: 2px solid var(--border);
     background: var(--surface2);
     color: var(--text2);
     font-size: 13px;
@@ -507,10 +507,15 @@
     font-family: inherit;
     transition: all 0.15s;
   }
+  .setting-btn:hover {
+    border-color: #2563eb;
+    color: #2563eb;
+  }
   .setting-btn.active {
     background: #2563eb;
     color: #fff;
     border-color: #2563eb;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.3);
   }
 
   @media (max-width: 700px) {
@@ -528,7 +533,7 @@
   <div class="header-top">
     <h1>Great South Run 2026</h1>
     <span class="header-badge" style="background:rgba(255,255,255,0.2);color:#fff">Sub 1:20 target</span>
-    <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.4);font-family:monospace;align-self:flex-start;padding-top:2px">v1.2</span>
+    <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.4);font-family:monospace;align-self:flex-start;padding-top:2px">v1.4</span>
   </div>
   <div class="header-meta">
     <span class="pace-chip">Easy <span>9:00/mi</span></span>
@@ -1257,6 +1262,8 @@ function setHoldDuration(name, value) {
   if (!settings.holdDurations) settings.holdDurations = {};
   settings.holdDurations[name] = secs;
   saveSettings();
+  renderHoldDurations();  // re-render to show new active state
+  renderSettingLabels();
 }
 
 function renderSettingLabels() {
@@ -1277,23 +1284,26 @@ function renderHoldDurations() {
   const defaults = DEFAULT_SETTINGS.holdDurations;
   const durations = [
     { name: 'Plank',             icon: '🧱' },
-    { name: 'Side plank',        icon: '↔' },
-    { name: 'Wall sit',          icon: '🧱' },
+    { name: 'Side plank',        icon: '↔️' },
+    { name: 'Wall sit',          icon: '🪑' },
     { name: 'Hollow body hold',  icon: '🌊' },
     { name: 'Glute bridge hold', icon: '🍑' },
     { name: 'Bear crawl hold',   icon: '🐻' },
   ];
   container.innerHTML = durations.map(({ name, icon }) => {
-    const current = settings.holdDurations?.[name] || defaults[name];
+    const current = parseInt(settings.holdDurations?.[name]) || defaults[name];
     const opts = [10,15,20,25,30,35,40,45,50,60,75,90];
     return `
-      <div style="margin-bottom:16px">
+      <div style="margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid #f0f1f4">
         <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
-          <div style="font-size:13px;font-weight:600;color:#111827">${icon} ${name}</div>
-          <div style="font-size:11px;color:#9ca3af">default: ${defaults[name]}s</div>
+          <div style="font-size:13px;font-weight:700;color:#111827">${icon} ${name}</div>
+          <div style="font-size:11px;color:#9ca3af">default ${defaults[name]}s · current <span style="color:#2563eb;font-weight:600">${current}s</span></div>
         </div>
-        <div style="display:flex;gap:5px;flex-wrap:wrap">
-          ${opts.map(s => `<button onclick="setHoldDuration('${name}',${s});this.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));this.classList.add('active')" class="setting-btn${current===s?' active':''}" style="min-width:36px">${s}s</button>`).join('')}
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          ${opts.map(s => `<button
+            onclick="setHoldDuration('${name}',${s})"
+            class="setting-btn${current===s?' active':''}"
+            style="min-width:40px;padding:7px 10px">${s}s</button>`).join('')}
         </div>
       </div>
     `;
@@ -1325,10 +1335,12 @@ function renderWakeLockToggle() {
 }
 
 function renderSettingButtons() {
-  document.querySelectorAll('.setting-btn').forEach(btn => {
+  document.querySelectorAll('.setting-btn[data-key]').forEach(btn => {
     const key = btn.dataset.key;
-    const val = parseInt(btn.dataset.val);
-    btn.classList.toggle('active', settings[key] === val);
+    const val = btn.dataset.val === '0' ? 0 : (parseInt(btn.dataset.val) || btn.dataset.val);
+    const current = settings[key];
+    const isActive = current === val || String(current) === String(val);
+    btn.classList.toggle('active', isActive);
   });
 }
 
