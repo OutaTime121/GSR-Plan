@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Great South Run 2026</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #f4f5f7;
+    color: #111827;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  header {
+    background: #1d4ed8;
+    width: 100%;
+    padding: 36px 24px 30px;
+    text-align: center;
+  }
+  header h1 { font-size: 24px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+  header p  { font-size: 13px; color: rgba(255,255,255,0.7); margin-top: 6px; }
+
+  .content { padding: 28px 24px; width: 100%; max-width: 420px; flex: 1; }
+
+  .countdown {
+    background: #fff;
+    border: 1px solid #dde0e8;
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .countdown-label { font-size: 11px; color: #9ca3af; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 8px; }
+  .countdown-days  { font-size: 56px; font-weight: 900; color: #1d4ed8; letter-spacing: -2px; line-height: 1; }
+  .countdown-sub   { font-size: 13px; color: #4b5563; margin-top: 6px; }
+  .countdown-date  { font-size: 11px; color: #9ca3af; margin-top: 4px; }
+
+  .card {
+    display: block;
+    background: #fff;
+    border: 1px solid #dde0e8;
+    border-radius: 16px;
+    overflow: hidden;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform 0.15s, box-shadow 0.15s;
+    margin-bottom: 16px;
+  }
+  .card:hover  { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+  .card:active { transform: scale(0.98); }
+
+  .card-top {
+    background: #1d4ed8;
+    padding: 22px 22px 18px;
+    color: #fff;
+  }
+  .card-icon  { font-size: 36px; margin-bottom: 10px; }
+  .card-title { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+  .card-sub   { font-size: 12px; opacity: 0.8; margin-top: 4px; }
+
+  .card-body  { padding: 18px 22px 20px; }
+  .detail-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #4b5563; margin-bottom: 7px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  .card-cta {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cta-btn {
+    background: #1d4ed8;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .progress-label { font-size: 12px; color: #9ca3af; }
+
+  footer {
+    padding: 20px;
+    font-size: 11px;
+    color: #9ca3af;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Great South Run 2026</h1>
+  <p>outatime121 · Training Plan</p>
+</header>
+
+<div class="content">
+
+  <div class="countdown">
+    <div class="countdown-label">Race day countdown</div>
+    <div class="countdown-days" id="daysLeft">—</div>
+    <div class="countdown-sub" id="countdownSub">days to go</div>
+    <div class="countdown-date">Great South Run · Sun 18 Oct 2026</div>
+  </div>
+
+  <a class="card" href="training_plan.html">
+    <div class="card-top">
+      <div class="card-icon">🏃</div>
+      <div class="card-title">Training Plan</div>
+      <div class="card-sub">14 weeks · 13 Jul – 18 Oct 2026</div>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><div class="dot" style="background:#2563eb"></div>Strength — Mon, Wed, Fri</div>
+      <div class="detail-row"><div class="dot" style="background:#16a34a"></div>Running — Tue, Thu, Sat (parkrun), Sun</div>
+      <div class="detail-row"><div class="dot" style="background:#2563eb"></div>Target: sub 1:20 · Easy 9:00 · Steady 8:00 · Tempo 7:30</div>
+      <div class="card-cta">
+        <button class="cta-btn" onclick="window.location='training_plan.html'">Open plan →</button>
+        <span class="progress-label" id="your-progress"></span>
+      </div>
+    </div>
+  </a>
+
+</div>
+
+<footer>Progress saves in this browser on this device</footer>
+
+<script>
+  const raceDay = new Date('2026-10-18T09:00:00');
+  function updateCountdown() {
+    const diff = raceDay - new Date();
+    const el  = document.getElementById('daysLeft');
+    const sub = document.getElementById('countdownSub');
+    if (diff <= 0) { el.textContent = '🏁'; sub.textContent = 'Race day!'; return; }
+    const days = Math.ceil(diff / 86400000);
+    el.textContent  = days;
+    sub.textContent = days === 1 ? 'day to go' : 'days to go';
+  }
+  updateCountdown();
+
+  try {
+    const done = Object.keys(JSON.parse(localStorage.getItem('gsr2026_completed') || '{}')).length;
+    document.getElementById('your-progress').textContent = done > 0 ? `${done} session${done===1?'':'s'} completed` : 'Not started yet';
+  } catch(e) {}
+</script>
+</body>
+</html>
