@@ -549,68 +549,98 @@
 
 <!-- Settings panel -->
 <div id="settingsPanel" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#fff;border-radius:16px;width:100%;max-width:420px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.2)">
-    <div style="padding:18px 20px 14px;border-bottom:1px solid #dde0e8;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;border-radius:16px 16px 0 0">
-      <div><div style="font-size:16px;font-weight:700;color:#111827">⚙ Settings</div><div style="font-size:11px;color:#4b5563;margin-top:2px">Customise your training session</div></div>
+  <div style="background:#fff;border-radius:16px;width:100%;max-width:460px;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.2)">
+
+    <!-- Header -->
+    <div style="padding:18px 20px 14px;border-bottom:1px solid #dde0e8;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;border-radius:16px 16px 0 0;z-index:1">
+      <div><div style="font-size:16px;font-weight:700;color:#111827">⚙ Settings</div><div style="font-size:11px;color:#4b5563;margin-top:2px">Changes apply immediately and save automatically</div></div>
       <button onclick="closeSettings()" style="background:#f0f1f4;border:1px solid #dde0e8;color:#4b5563;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;font-family:inherit">✕</button>
     </div>
+
     <div style="padding:20px">
 
-      <!-- Rest duration -->
-      <div style="margin-bottom:24px">
-        <div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:4px">Rest between sets</div>
-        <div style="font-size:12px;color:#4b5563;margin-bottom:12px">How long to rest after completing each set</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap" id="rest-options">
-          <button onclick="setSetting('restDuration',20)" class="setting-btn" data-key="restDuration" data-val="20">20s</button>
-          <button onclick="setSetting('restDuration',30)" class="setting-btn" data-key="restDuration" data-val="30">30s</button>
-          <button onclick="setSetting('restDuration',45)" class="setting-btn" data-key="restDuration" data-val="45">45s</button>
-          <button onclick="setSetting('restDuration',60)" class="setting-btn" data-key="restDuration" data-val="60">60s</button>
-          <button onclick="setSetting('restDuration',90)" class="setting-btn" data-key="restDuration" data-val="90">90s</button>
+      <!-- SECTION: Timing -->
+      <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#9ca3af;margin-bottom:14px">Timing</div>
+
+      <!-- Rest between sets -->
+      <div style="margin-bottom:20px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+          <div style="font-size:13px;font-weight:700;color:#111827">Rest between sets</div>
+          <div id="lbl-restDuration" style="font-size:12px;font-weight:600;color:#2563eb"></div>
+        </div>
+        <div style="font-size:11px;color:#6b7280;margin-bottom:10px">Auto-starts after you tap Done on each set</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button onclick="setSetting('restDuration',20)"  class="setting-btn" data-key="restDuration" data-val="20">20s</button>
+          <button onclick="setSetting('restDuration',30)"  class="setting-btn" data-key="restDuration" data-val="30">30s</button>
+          <button onclick="setSetting('restDuration',45)"  class="setting-btn" data-key="restDuration" data-val="45">45s</button>
+          <button onclick="setSetting('restDuration',60)"  class="setting-btn" data-key="restDuration" data-val="60">60s</button>
+          <button onclick="setSetting('restDuration',90)"  class="setting-btn" data-key="restDuration" data-val="90">90s</button>
+          <button onclick="setSetting('restDuration',120)" class="setting-btn" data-key="restDuration" data-val="120">2 min</button>
         </div>
       </div>
 
-      <!-- Between exercise rest -->
-      <div style="margin-bottom:24px">
-        <div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:4px">Rest between exercises</div>
-        <div style="font-size:12px;color:#4b5563;margin-bottom:12px">Countdown shown between finishing one exercise and starting the next</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button onclick="setSetting('betweenExRest',30)" class="setting-btn" data-key="betweenExRest" data-val="30">30s</button>
-          <button onclick="setSetting('betweenExRest',45)" class="setting-btn" data-key="betweenExRest" data-val="45">45s</button>
-          <button onclick="setSetting('betweenExRest',60)" class="setting-btn" data-key="betweenExRest" data-val="60">60s</button>
-          <button onclick="setSetting('betweenExRest',90)" class="setting-btn" data-key="betweenExRest" data-val="90">90s</button>
+      <!-- Rest between exercises -->
+      <div style="margin-bottom:20px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+          <div style="font-size:13px;font-weight:700;color:#111827">Rest between exercises</div>
+          <div id="lbl-betweenExRest" style="font-size:12px;font-weight:600;color:#2563eb"></div>
+        </div>
+        <div style="font-size:11px;color:#6b7280;margin-bottom:10px">Blue countdown bar shown after finishing all sets of one exercise</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button onclick="setSetting('betweenExRest',30)"  class="setting-btn" data-key="betweenExRest" data-val="30">30s</button>
+          <button onclick="setSetting('betweenExRest',45)"  class="setting-btn" data-key="betweenExRest" data-val="45">45s</button>
+          <button onclick="setSetting('betweenExRest',60)"  class="setting-btn" data-key="betweenExRest" data-val="60">60s</button>
+          <button onclick="setSetting('betweenExRest',90)"  class="setting-btn" data-key="betweenExRest" data-val="90">90s</button>
           <button onclick="setSetting('betweenExRest',120)" class="setting-btn" data-key="betweenExRest" data-val="120">2 min</button>
         </div>
       </div>
 
       <!-- Get ready countdown -->
-      <div style="margin-bottom:24px">
-        <div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:4px">Get-ready countdown</div>
-        <div style="font-size:12px;color:#4b5563;margin-bottom:12px">Counts down before a hold timer starts so you can get into position</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button onclick="setSetting('getReadyCountdown',0)" class="setting-btn" data-key="getReadyCountdown" data-val="0">Off</button>
-          <button onclick="setSetting('getReadyCountdown',3)" class="setting-btn" data-key="getReadyCountdown" data-val="3">3s</button>
-          <button onclick="setSetting('getReadyCountdown',5)" class="setting-btn" data-key="getReadyCountdown" data-val="5">5s</button>
+      <div style="margin-bottom:20px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+          <div style="font-size:13px;font-weight:700;color:#111827">Get-ready countdown</div>
+          <div id="lbl-getReadyCountdown" style="font-size:12px;font-weight:600;color:#2563eb"></div>
+        </div>
+        <div style="font-size:11px;color:#6b7280;margin-bottom:10px">Counts down before a hold exercise starts so you can get into position</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button onclick="setSetting('getReadyCountdown',0)"  class="setting-btn" data-key="getReadyCountdown" data-val="0">Off</button>
+          <button onclick="setSetting('getReadyCountdown',3)"  class="setting-btn" data-key="getReadyCountdown" data-val="3">3s</button>
+          <button onclick="setSetting('getReadyCountdown',5)"  class="setting-btn" data-key="getReadyCountdown" data-val="5">5s</button>
           <button onclick="setSetting('getReadyCountdown',10)" class="setting-btn" data-key="getReadyCountdown" data-val="10">10s</button>
         </div>
       </div>
 
+      <div style="height:1px;background:#f0f1f4;margin:20px 0"></div>
+
+      <!-- SECTION: Hold exercise durations -->
+      <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#9ca3af;margin-bottom:6px">Hold exercise durations</div>
+      <div style="font-size:11px;color:#6b7280;margin-bottom:16px">Set your target hold time for each timed exercise. These override the plan defaults.</div>
+
+      <div id="hold-duration-list"></div>
+
+      <div style="height:1px;background:#f0f1f4;margin:20px 0"></div>
+
+      <!-- SECTION: Display -->
+      <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#9ca3af;margin-bottom:14px">Display</div>
+
       <!-- Screen wake lock -->
-      <div style="margin-bottom:24px">
+      <div style="margin-bottom:20px">
         <div style="display:flex;align-items:center;justify-content:space-between">
           <div>
             <div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:2px">Keep screen on</div>
-            <div style="font-size:12px;color:#4b5563">Prevents screen from sleeping during a session</div>
+            <div style="font-size:11px;color:#6b7280">Prevents screen sleeping during a session (like a video)</div>
           </div>
-          <button id="wake-lock-toggle" onclick="toggleWakeLock()" style="width:48px;height:28px;border-radius:14px;border:none;cursor:pointer;transition:background 0.2s;position:relative;font-family:inherit">
+          <button id="wake-lock-toggle" onclick="toggleWakeLock()" style="width:48px;height:28px;border-radius:14px;border:none;cursor:pointer;transition:background 0.2s;position:relative;flex-shrink:0;margin-left:12px">
             <div id="wake-lock-knob" style="width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:3px;transition:left 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2)"></div>
           </button>
         </div>
       </div>
 
-      <div style="border-top:1px solid #dde0e8;padding-top:16px;display:flex;gap:8px">
-        <button onclick="resetSettings()" style="flex:1;background:#f0f1f4;color:#4b5563;border:1px solid #dde0e8;border-radius:8px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">Reset to defaults</button>
-        <button onclick="closeSettings()" style="flex:1;background:#2563eb;color:#fff;border:none;border-radius:8px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">Done</button>
-      </div>
+      <div style="height:1px;background:#f0f1f4;margin:20px 0"></div>
+
+      <!-- Reset -->
+      <button onclick="resetSettings()" style="width:100%;background:#f0f1f4;color:#4b5563;border:1px solid #dde0e8;border-radius:8px;padding:11px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">Reset all to defaults</button>
+
     </div>
   </div>
 </div>
@@ -1040,10 +1070,19 @@ try { completed = JSON.parse(localStorage.getItem('gsr2026_completed') || '{}');
 
 // ── settings ──────────────────────────────────────────────────────────────────
 const DEFAULT_SETTINGS = {
-  restDuration: 30,        // seconds between sets
-  betweenExRest: 60,       // seconds between exercises
-  getReadyCountdown: 5,    // seconds before hold timer starts
-  screenWakeLock: true,    // keep screen on during session
+  restDuration: 30,           // seconds between sets
+  betweenExRest: 60,          // seconds between exercises
+  getReadyCountdown: 5,       // seconds before hold timer starts
+  screenWakeLock: true,       // keep screen on during session
+  // per-exercise hold durations (seconds)
+  holdDurations: {
+    'Plank':             30,
+    'Side plank':        20,
+    'Wall sit':          30,
+    'Hollow body hold':  20,
+    'Glute bridge hold': 30,
+    'Bear crawl hold':   25,
+  }
 };
 let settings = { ...DEFAULT_SETTINGS };
 try {
@@ -1199,6 +1238,8 @@ function showSettings() {
   document.getElementById('settingsPanel').style.display = 'flex';
   renderSettingButtons();
   renderWakeLockToggle();
+  renderHoldDurations();
+  renderSettingLabels();
 }
 
 function closeSettings() {
@@ -1209,13 +1250,65 @@ function setSetting(key, value) {
   settings[key] = value;
   saveSettings();
   renderSettingButtons();
+  renderSettingLabels();
+}
+
+function setHoldDuration(name, value) {
+  const secs = parseInt(value);
+  if (isNaN(secs) || secs < 5 || secs > 300) return;
+  if (!settings.holdDurations) settings.holdDurations = {};
+  settings.holdDurations[name] = secs;
+  saveSettings();
+}
+
+function renderSettingLabels() {
+  const labels = {
+    restDuration: v => v >= 60 ? `${v/60} min` : `${v}s`,
+    betweenExRest: v => v >= 60 ? `${v/60} min` : `${v}s`,
+    getReadyCountdown: v => v === 0 ? 'Off' : `${v}s`,
+  };
+  Object.entries(labels).forEach(([key, fmt]) => {
+    const el = document.getElementById(`lbl-${key}`);
+    if (el) el.textContent = fmt(settings[key]);
+  });
+}
+
+function renderHoldDurations() {
+  const container = document.getElementById('hold-duration-list');
+  if (!container) return;
+  const defaults = DEFAULT_SETTINGS.holdDurations;
+  const durations = [
+    { name: 'Plank',             icon: '🧱' },
+    { name: 'Side plank',        icon: '↔' },
+    { name: 'Wall sit',          icon: '🧱' },
+    { name: 'Hollow body hold',  icon: '🌊' },
+    { name: 'Glute bridge hold', icon: '🍑' },
+    { name: 'Bear crawl hold',   icon: '🐻' },
+  ];
+  container.innerHTML = durations.map(({ name, icon }) => {
+    const current = settings.holdDurations?.[name] || defaults[name];
+    const opts = [10,15,20,25,30,35,40,45,50,60,75,90];
+    return `
+      <div style="margin-bottom:16px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+          <div style="font-size:13px;font-weight:600;color:#111827">${icon} ${name}</div>
+          <div style="font-size:11px;color:#9ca3af">default: ${defaults[name]}s</div>
+        </div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap">
+          ${opts.map(s => `<button onclick="setHoldDuration('${name}',${s});this.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));this.classList.add('active')" class="setting-btn${current===s?' active':''}" style="min-width:36px">${s}s</button>`).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
 function resetSettings() {
-  settings = { ...DEFAULT_SETTINGS };
+  settings = JSON.parse(JSON.stringify(DEFAULT_SETTINGS));
   saveSettings();
   renderSettingButtons();
   renderWakeLockToggle();
+  renderHoldDurations();
+  renderSettingLabels();
 }
 
 function toggleWakeLock() {
@@ -1611,7 +1704,10 @@ function buildSetRow(exercise, ei, si, totalSets, repDesc) {
   row.className = 'set-row';
   row.id = `set-${ei}-${si}`;
 
-  const timerSec = exercise.timerSec;
+  // use per-exercise setting if available, fall back to plan default
+  const timerSec = exercise.timerSec
+    ? (settings.holdDurations[exercise.name] || exercise.timerSec)
+    : null;
   const timerId = `timer-${ei}-${si}`;
   const restId  = `rest-${ei}-${si}`;
 
