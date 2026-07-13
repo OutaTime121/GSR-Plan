@@ -1026,19 +1026,6 @@ function playRestDoneSound() {
 document.addEventListener('click', () => { getAudioCtx(); }, { once: true });
 
 // ── wake lock ─────────────────────────────────────────────────────────────────
-let wakeLock = null;
-
-async function requestWakeLock() {
-  if (!('wakeLock' in navigator)) return;
-  try {
-    wakeLock = await navigator.wakeLock.request('screen');
-    wakeLock.addEventListener('release', () => { wakeLock = null; });
-  } catch(e) { /* not available */ }
-}
-
-async function releaseWakeLock() {
-  if (wakeLock) { await wakeLock.release(); wakeLock = null; }
-}
 
 // re-acquire on visibility change (e.g. tab switch back)
 document.addEventListener('visibilitychange', () => {
@@ -1094,16 +1081,7 @@ document.addEventListener('visibilitychange', () => {
 });
 
 // ── settings ──────────────────────────────────────────────────────────────────
-const DEFAULT_SETTINGS = { restSecs: 30, getReadySecs: 5, soundOn: true, betweenExRestSecs: 60, keepScreenOn: true };
-let settings = { ...DEFAULT_SETTINGS };
-try {
-  const saved = JSON.parse(localStorage.getItem('gsr2026_settings') || '{}');
-  settings = { ...DEFAULT_SETTINGS, ...saved };
-} catch(e) {}
 
-function saveSettings() {
-  try { localStorage.setItem('gsr2026_settings', JSON.stringify(settings)); } catch(e) {}
-}
 
 // ── session timing ────────────────────────────────────────────────────────────
 let sessionTimes = {};
@@ -1953,7 +1931,7 @@ function autoStartRestTimer(ei, si) {
   let sec = settings.restSecs;
   const display = document.getElementById(`rest-${ei}-${si}-display`);
   const startBtn = document.querySelector(`#rest-${ei}-${si} .btn-ghost`);
-  if (display) { display.textContent = fmtTime(settings.restDuration); display.textContent = fmtTime(sec); }
+  if (display) { display.textContent = fmtTime(sec); }
   if (startBtn) startBtn.textContent = 'Restart';
   activeRestTimers[key] = setInterval(() => {
     sec--;
