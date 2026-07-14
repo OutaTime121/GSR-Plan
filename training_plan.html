@@ -533,7 +533,7 @@
   <div class="header-top">
     <h1>Great South Run 2026</h1>
     <span class="header-badge" style="background:rgba(255,255,255,0.2);color:#fff">Sub 1:20 target</span>
-    <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.4);font-family:monospace;align-self:flex-start;padding-top:2px">v1.11</span>
+    <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.4);font-family:monospace;align-self:flex-start;padding-top:2px">v1.12</span>
   </div>
   <div class="header-meta">
     <span class="pace-chip">Easy <span>9:00/mi</span></span>
@@ -842,7 +842,7 @@ const PLAN = [
       { date:'15 Jul', ...str('Core', CORE_F) },
       { date:'16 Jul', ...run('6 miles easy','easy','6 miles at easy pace. Should feel conversational — 1 min/mile slower than race pace.') },
       { date:'17 Jul', ...str('Legs + Core', COMBO_F) },
-      { date:'18 Jul', ...run('Parkrun','easy','Parkrun at easy/comfortable effort. Not a race — use it as a relaxed 5k.') },
+      { date:'18 Jul', ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort. Not a race — use it as a relaxed 5k.') },
       { date:'19 Jul', ...run('7 miles easy','easy','7 miles at easy pace. Long slow run — keep it comfortable throughout.') },
     ]},
   { wk:2,  dates:'20–26 Jul', tag:'foundation', tagLabel:'Foundation', sub:'',
@@ -852,7 +852,7 @@ const PLAN = [
       { date:'22 Jul', ...str('Core', CORE_F) },
       { date:'23 Jul', ...run('7 miles easy','easy','7 miles easy. Possibly away — adapt route as needed. Keep it easy.') },
       { date:'24 Jul', ...str('Legs + Core', COMBO_F) },
-      { date:'25 Jul', ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'25 Jul', ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
       { date:'26 Jul', ...run('7 miles easy','easy','7 miles at easy pace.') },
     ]},
   { wk:3,  dates:'27 Jul–2 Aug', tag:'build', tagLabel:'Build', sub:'Lunge with less chair — aim to reduce support each week',
@@ -862,7 +862,7 @@ const PLAN = [
       { date:'29 Jul', ...str('Core', CORE_B) },
       { date:'30 Jul', ...run('5 miles steady','steady','5 miles at steady pace (race pace). Controlled effort — not all out.') },
       { date:'31 Jul', ...str('Legs + Core', COMBO_B) },
-      { date:'1 Aug',  ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'1 Aug',  ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
       { date:'2 Aug',  ...run('8 miles easy','easy','8 miles at easy pace. Building the long run distance.') },
     ]},
   { wk:4,  dates:'3–9 Aug', tag:'build', tagLabel:'Build', sub:'',
@@ -872,7 +872,7 @@ const PLAN = [
       { date:'5 Aug',  ...str('Core', CORE_B) },
       { date:'6 Aug',  ...run('400m reps','tempo','8×400m at tempo pace with 2 min walk/jog recovery between each rep.') },
       { date:'7 Aug',  ...str('Legs + Core', COMBO_B) },
-      { date:'8 Aug',  ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'8 Aug',  ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
       { date:'9 Aug',  ...run('8 miles easy','easy','8 miles at easy pace.') },
     ]},
   { wk:5,  dates:'10–16 Aug', tag:'build', tagLabel:'Build', sub:'',
@@ -882,7 +882,7 @@ const PLAN = [
       { date:'12 Aug', ...str('Core', CORE_B) },
       { date:'13 Aug', ...run('6 miles steady','steady','6 miles at steady pace (race pace).') },
       { date:'14 Aug', ...str('Legs + Core', COMBO_B) },
-      { date:'15 Aug', ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'15 Aug', ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
       { date:'16 Aug', ...run('9 miles easy','easy','9 miles at easy pace. Longest run so far.') },
     ]},
   { wk:6,  dates:'17–23 Aug', tag:'flex', tagLabel:'Flex Week 1', sub:'Recovery — 2 sets not 3, keep it easy',
@@ -892,7 +892,7 @@ const PLAN = [
       { date:'19 Aug', ...str('Core (light)', CORE_FL) },
       { date:'20 Aug', ...run('5–7km easy','easy','5–7km very easy run. Recovery week — keep it comfortable.') },
       { date:'21 Aug', ...str('Combo (light)', COMBO_FL) },
-      { date:'22 Aug', ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'22 Aug', ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
       { date:'23 Aug', ...run('8 miles easy','easy','8 miles at easy pace.') },
     ]},
   { wk:7,  dates:'24–30 Aug', tag:'peak', tagLabel:'Peak', sub:'Unassisted lunges — if form breaks, use fingertip wall support only',
@@ -902,7 +902,7 @@ const PLAN = [
       { date:'26 Aug', ...str('Core', CORE_P) },
       { date:'27 Aug', ...run('Hill reps','tempo','Hill reps at tempo pace. Find a hill ~200–400m long. Run up at tempo effort, jog back down as recovery. Aim for 6–8 reps.') },
       { date:'28 Aug', ...str('Legs + Core', COMBO_P) },
-      { date:'29 Aug', ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'29 Aug', ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
       { date:'30 Aug', ...run('10 miles easy','easy','10 miles at easy pace. Big milestone run.') },
     ]},
   { wk:8,  dates:'31 Aug–6 Sep', tag:'flex', tagLabel:'Flex Week 2', sub:'Recovery — 2 sets not 3',
@@ -912,7 +912,7 @@ const PLAN = [
       { date:'2 Sep',  ...str('Core (light)', CORE_FL) },
       { date:'3 Sep',  ...run('5–7km easy','easy','5–7km very easy run. Keep it easy.') },
       { date:'4 Sep',  ...str('Combo (light)', COMBO_FL) },
-      { date:'5 Sep',  ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'5 Sep',  ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
       { date:'6 Sep',  ...run('8 miles easy','easy','8 miles at easy pace.') },
     ]},
   { wk:9,  dates:'7–13 Sep', tag:'peak', tagLabel:'Peak', sub:'',
@@ -922,7 +922,7 @@ const PLAN = [
       { date:'9 Sep',  ...str('Core', CORE_P) },
       { date:'10 Sep', ...run('5 miles steady','steady','5 miles at steady pace (race pace).') },
       { date:'11 Sep', ...str('Legs + Core', COMBO_P) },
-      { date:'12 Sep', ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'12 Sep', ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
       { date:'13 Sep', ...run('9 miles easy','easy','9 miles at easy pace.') },
     ]},
   { wk:10, dates:'14–20 Sep', tag:'peak', tagLabel:'Peak', sub:'',
@@ -932,7 +932,7 @@ const PLAN = [
       { date:'16 Sep', ...str('Core', CORE_P) },
       { date:'17 Sep', ...run('400m reps','tempo','8×400m at tempo pace with 2 min walk/jog recovery between each rep.') },
       { date:'18 Sep', ...str('Legs + Core', COMBO_P) },
-      { date:'19 Sep', ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'19 Sep', ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
       { date:'20 Sep', ...run('9 miles easy','easy','9 miles at easy pace.') },
     ]},
   { wk:11, dates:'21–27 Sep', tag:'peak', tagLabel:'Peak', sub:'Longest run of the plan on Sunday — legs should feel strong by now',
@@ -942,7 +942,7 @@ const PLAN = [
       { date:'23 Sep', ...str('Core', CORE_P) },
       { date:'24 Sep', ...run('6 miles steady','steady','6 miles at steady pace.') },
       { date:'25 Sep', ...str('Legs + Core', COMBO_P) },
-      { date:'26 Sep', ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'26 Sep', ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
       { date:'27 Sep', ...run('10+ miles easy','easy','10+ miles at easy pace. The longest run of the plan — take it steady and enjoy it.') },
     ]},
   { wk:12, dates:'28 Sep–4 Oct', tag:'maintain', tagLabel:'Maintain', sub:'Reduce strength volume — priority shifts to running quality',
@@ -952,7 +952,7 @@ const PLAN = [
       { date:'30 Sep', ...str('Core', CORE_M) },
       { date:'1 Oct',  ...run('7 miles steady','steady','7 miles at steady pace.') },
       { date:'2 Oct',  ...str('Combo', COMBO_M) },
-      { date:'3 Oct',  ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'3 Oct',  ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
       { date:'4 Oct',  ...run('8 miles easy','easy','8 miles at easy pace.') },
     ]},
   { wk:13, dates:'5–11 Oct', tag:'taper', tagLabel:'Taper', sub:'Light strength only — no soreness going into race week',
@@ -962,7 +962,7 @@ const PLAN = [
       { date:'7 Oct',  ...str('Core', CORE_M) },
       { date:'8 Oct',  ...run('6 miles easy','easy','6 miles at easy pace. Keep it relaxed.') },
       { date:'9 Oct',  ...str('Combo', COMBO_M) },
-      { date:'10 Oct', ...run('Parkrun','easy','Parkrun at easy/comfortable effort.') },
+      { date:'10 Oct', ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
       { date:'11 Oct', ...run('6 miles easy','easy','6 miles at easy pace. Final long run before race week.') },
     ]},
   { wk:14, dates:'12–18 Oct', tag:'raceweek', tagLabel:'Race Week', sub:'Very light strength Mon only — rest and stay fresh',
@@ -1069,6 +1069,10 @@ document.addEventListener('visibilitychange', () => {
 // ── completed state ───────────────────────────────────────────────────────────
 let completed = {};
 try { completed = JSON.parse(localStorage.getItem('gsr2026_completed') || '{}'); } catch(e) { completed = {}; }
+
+let runDone = {};
+try { runDone = JSON.parse(localStorage.getItem('gsr2026_runs') || '{}'); } catch(e) { runDone = {}; }
+function saveRunDone() { try { localStorage.setItem('gsr2026_runs', JSON.stringify(runDone)); } catch(e) {} }
 
 // ── settings ──────────────────────────────────────────────────────────────────
 const DEFAULT_SETTINGS = {
@@ -1510,7 +1514,7 @@ function renderPlan() {
         cell.addEventListener('click', () => openModal(week, day, di, key));
       } else if (day.type === 'run' && day.detail) {
         cell.style.cursor = 'pointer';
-        cell.addEventListener('click', () => openRunModal(week, day));
+        cell.addEventListener('click', () => openRunModal(week, day, key));
       }
 
       grid.appendChild(cell);
@@ -1842,7 +1846,7 @@ function showBetweenExerciseRest(fromEi, nextEi) {
   overlay.id = 'between-rest';
   overlay.style.cssText = 'position:sticky;bottom:0;left:0;right:0;background:#1d4ed8;color:#fff;padding:14px 18px;border-radius:12px 12px 0 0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,0.15);margin:12px -16px -24px';
 
-  let sec = settings.betweenExRestSecs;
+  let sec = settings.betweenExRest;
   overlay.innerHTML = `
     <div>
       <div style="font-size:11px;opacity:0.8;font-weight:600;letter-spacing:0.5px;text-transform:uppercase">Rest before next exercise</div>
@@ -1861,10 +1865,10 @@ function showBetweenExerciseRest(fromEi, nextEi) {
     sec--;
     const d = document.getElementById('between-rest-display');
     if (d) d.textContent = sec > 0 ? fmtTime(sec) : 'Go!';
-    if (sec > 0 && sec <= 3 && settings.soundOn) playCountdownBeep();
+    if (sec > 0 && sec <= 3 && true) playCountdownBeep();
     if (sec <= 0) {
       clearInterval(betweenRestInterval);
-      if (settings.soundOn) playRestDoneSound();
+      if (true) playRestDoneSound();
       setTimeout(() => skipBetweenRest(nextEi), 600);
     }
   }, 1000);
@@ -1942,12 +1946,12 @@ function runSetTimer(ei, si, totalSec) {
       display.textContent = fmtTime(sec);
       display.className = 'set-timer-display' + (sec <= 5 && sec > 0 ? ' warning' : sec <= 0 ? ' done-t' : '');
     }
-    if (sec > 0 && sec <= 5 && settings.soundOn) playCountdownBeep();
+    if (sec > 0 && sec <= 5 && true) playCountdownBeep();
     if (sec <= 0) {
       clearSetTimer(ei, si);
       if (display) display.textContent = 'Done!';
       if (btn) { btn.textContent = 'Start timer'; btn.disabled = false; }
-      if (settings.soundOn) playDoneSound();
+      if (true) playDoneSound();
       const restBar = document.getElementById(`rest-${ei}-${si}`);
       if (restBar) { restBar.classList.add('show'); autoStartRestTimer(ei, si); }
     }
@@ -1974,7 +1978,7 @@ function startRestTimer(ei, si) {
 function autoStartRestTimer(ei, si) {
   const key = `${ei}-${si}`;
   if (activeRestTimers[key]) { clearInterval(activeRestTimers[key]); delete activeRestTimers[key]; }
-  let sec = settings.restSecs;
+  let sec = settings.restDuration;
   const display = document.getElementById(`rest-${ei}-${si}-display`);
   const startBtn = document.querySelector(`#rest-${ei}-${si} .btn-ghost`);
   if (display) { display.textContent = fmtTime(sec); }
@@ -1982,11 +1986,11 @@ function autoStartRestTimer(ei, si) {
   activeRestTimers[key] = setInterval(() => {
     sec--;
     if (display) display.textContent = sec > 0 ? fmtTime(sec) : 'Go! 🏃';
-    if (sec > 0 && sec <= 3 && settings.soundOn) playCountdownBeep();
+    if (sec > 0 && sec <= 3 && true) playCountdownBeep();
     if (sec <= 0) {
       clearInterval(activeRestTimers[key]);
       delete activeRestTimers[key];
-      if (settings.soundOn) playRestDoneSound();
+      if (true) playRestDoneSound();
       if (startBtn) startBtn.textContent = 'Start';
     }
   }, 1000);
@@ -2021,6 +2025,16 @@ function checkAllDone() {
       comp.classList.add('show');
       setTimeout(() => comp.scrollIntoView({ behavior:'smooth', block:'nearest' }), 300);
     }
+  }
+}
+
+// ── session notes ────────────────────────────────────────────────────────────
+let sessionNotes = {};
+try { sessionNotes = JSON.parse(localStorage.getItem('gsr2026_session_notes') || '{}'); } catch(e) { sessionNotes = {}; }
+function saveSessionNote(val) {
+  if (currentKey) {
+    sessionNotes[currentKey] = val;
+    try { localStorage.setItem('gsr2026_session_notes', JSON.stringify(sessionNotes)); } catch(e) {}
   }
 }
 
@@ -2065,7 +2079,7 @@ function markSessionDone() {
   closeModal();
 }
 
-function openRunModal(week, day) {
+function openRunModal(week, day, key) {
   const paceLabels = { easy:'Easy · 9:00/mi', steady:'Steady · 8:00/mi', tempo:'Tempo · 7:30/mi' };
   const paceColors = { easy:'#15803d', steady:'#1d4ed8', tempo:'#991b1b' };
   const paceBgs    = { easy:'#dcfce7', steady:'#dbeafe', tempo:'#fee2e2' };
@@ -2076,15 +2090,16 @@ function openRunModal(week, day) {
   document.getElementById('progressFill').style.width = '0%';
   document.getElementById('progressText').textContent = '';
 
+  const runState = runDone[key] || null;
   const body = document.getElementById('modalBody');
   body.innerHTML = `
     <div style="margin-bottom:14px">
       <span style="display:inline-block;background:${paceBgs[pace]};color:${paceColors[pace]};font-size:13px;font-weight:700;padding:5px 14px;border-radius:20px">${paceLabels[pace] || pace}</span>
     </div>
-    <div style="background:var(--surface2);border-radius:10px;padding:16px;border:1px solid var(--border);font-size:14px;line-height:1.7;color:var(--text)">
+    <div style="background:var(--surface2);border-radius:10px;padding:16px;border:1px solid var(--border);font-size:14px;line-height:1.7;color:var(--text);margin-bottom:14px">
       ${day.detail}
     </div>
-    <div style="margin-top:16px;background:#eff6ff;border-radius:10px;padding:14px;border:1px solid #bfdbfe">
+    <div style="background:#eff6ff;border-radius:10px;padding:14px;border:1px solid #bfdbfe;margin-bottom:14px">
       <div style="font-size:11px;font-weight:700;color:#1d4ed8;margin-bottom:8px;letter-spacing:0.5px;text-transform:uppercase">Pace reference</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center">
         <div style="background:#dcfce7;border-radius:7px;padding:8px;"><div style="font-size:10px;color:#15803d;font-weight:700">EASY</div><div style="font-size:14px;font-weight:700;color:#15803d">9:00/mi</div><div style="font-size:9px;color:#15803d">5:35/km</div></div>
@@ -2092,10 +2107,46 @@ function openRunModal(week, day) {
         <div style="background:#fee2e2;border-radius:7px;padding:8px;"><div style="font-size:10px;color:#991b1b;font-weight:700">TEMPO</div><div style="font-size:14px;font-weight:700;color:#991b1b">7:30/mi</div><div style="font-size:9px;color:#991b1b">4:39/km</div></div>
       </div>
     </div>
-  `;
-
-  document.getElementById('modalOverlay').classList.add('open');
+    <div style="margin-bottom:14px">
+      <div style="font-size:11px;font-weight:700;color:#4b5563;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Log this run</div>
+      <div style="display:flex;gap:8px">
+        <button onclick="markRunDone('${key}','done')" style="flex:1;padding:10px;border-radius:8px;border:2px solid ${runState==='done'?'#16a34a':'#dde0e8'};background:${runState==='done'?'#dcfce7':'#f0f1f4'};color:${runState==='done'?'#15803d':'#4b5563'};font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">✓ Done</button>
+        <button onclick="markRunDone('${key}','skipped')" style="flex:1;padding:10px;border-radius:8px;border:2px solid ${runState==='skipped'?'#9ca3af':'#dde0e8'};background:${runState==='skipped'?'#f0f1f4':'#f0f1f4'};color:${runState==='skipped'?'#4b5563':'#9ca3af'};font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">— Skipped</button>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:11px;font-weight:700;color:#4b5563;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">Notes</div>
+      <textarea id="run-notes-${key}" placeholder="How did it feel? Pace, distance, anything notable..." style="width:100%;min-height:80px;padding:10px;border:1px solid #dde0e8;border-radius:8px;font-size:13px;font-family:inherit;color:#111827;resize:vertical;line-height:1.5" oninput="saveRunNote('${key}',this.value)">${runNotes[key]||''}</textarea>
+    </div>
+  `;  document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+// ── run tracking ─────────────────────────────────────────────────────────────
+let runNotes = {};
+try { runNotes = JSON.parse(localStorage.getItem('gsr2026_run_notes') || '{}'); } catch(e) { runNotes = {}; }
+function saveRunNote(key, val) {
+  runNotes[key] = val;
+  try { localStorage.setItem('gsr2026_run_notes', JSON.stringify(runNotes)); } catch(e) {}
+}
+
+function markRunDone(key, state) {
+  runDone[key] = state;
+  saveRunDone();
+  renderPlan();
+  // update buttons in modal
+  const btns = document.querySelectorAll('#modalBody button');
+  btns.forEach(b => {
+    if (b.textContent.trim() === '✓ Done') {
+      b.style.borderColor = state === 'done' ? '#16a34a' : '#dde0e8';
+      b.style.background  = state === 'done' ? '#dcfce7' : '#f0f1f4';
+      b.style.color       = state === 'done' ? '#15803d' : '#4b5563';
+    }
+    if (b.textContent.trim() === '— Skipped') {
+      b.style.borderColor = state === 'skipped' ? '#9ca3af' : '#dde0e8';
+      b.style.color       = state === 'skipped' ? '#4b5563' : '#9ca3af';
+    }
+  });
 }
 
 function closeModal() {
