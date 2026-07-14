@@ -533,7 +533,7 @@
   <div class="header-top">
     <h1>Great South Run 2026</h1>
     <span class="header-badge" style="background:rgba(255,255,255,0.2);color:#fff">Sub 1:20 target</span>
-    <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.4);font-family:monospace;align-self:flex-start;padding-top:2px">v1.12</span>
+    <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.4);font-family:monospace;align-self:flex-start;padding-top:2px">v1.13</span>
   </div>
   <div class="header-meta">
     <span class="pace-chip">Easy <span>9:00/mi</span></span>
@@ -1478,8 +1478,6 @@ function renderPlan() {
       else cellClass += ' rest-cell';
       if (isDone) cellClass += ' completed';
 
-      cell.className = cellClass;
-
       const typeLabel = day.type === 'strength' ? `<div class="day-type-label type-strength">Strength</div>`
                       : day.type === 'run'      ? `<div class="day-type-label type-run">Run</div>`
                       : day.type === 'race'     ? `<div class="day-type-label type-race">Race Day</div>`
@@ -1498,10 +1496,15 @@ function renderPlan() {
         }
         preview = `<ul class="day-preview">${day.exercises.map(e=>`<li>${e.name}</li>`).join('')}</ul>${timeHtml}`;
       } else if (day.type === 'run' || day.type === 'race') {
+        const runState = runDone[key] || null;
         const paceHtml = day.pace ? `<div class="pace-badge pace-${day.pace}">${day.pace === 'easy' ? 'Easy · 9:00/mi' : day.pace === 'steady' ? 'Steady · 8:00/mi' : day.pace === 'tempo' ? 'Tempo · 7:30/mi' : day.pace === 'mixed' ? 'Mixed paces' : day.pace}</div>` : '';
-        preview = `<div class="day-preview" style="white-space:pre-line;font-size:9px;color:var(--text)">${day.text}</div>${paceHtml}`;
+        const stateHtml = runState === 'done'    ? '<div style="font-size:9px;color:#16a34a;font-weight:700;margin-top:3px">✓ Done</div>'
+                        : runState === 'skipped' ? '<div style="font-size:9px;color:#9ca3af;font-weight:700;margin-top:3px">— Skipped</div>' : '';
+        preview = `<div class="day-preview" style="white-space:pre-line;font-size:9px;color:var(--text)">${day.text}</div>${paceHtml}${stateHtml}`;
+        if (runState === 'done') cellClass += ' completed';
       }
 
+      cell.className = cellClass;
       cell.innerHTML = `
         <div class="day-name">${DAY_NAMES[di]}</div>
         <div class="day-date">${day.date}</div>
@@ -2110,8 +2113,8 @@ function openRunModal(week, day, key) {
     <div style="margin-bottom:14px">
       <div style="font-size:11px;font-weight:700;color:#4b5563;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Log this run</div>
       <div style="display:flex;gap:8px">
-        <button onclick="markRunDone('${key}','done')" style="flex:1;padding:10px;border-radius:8px;border:2px solid ${runState==='done'?'#16a34a':'#dde0e8'};background:${runState==='done'?'#dcfce7':'#f0f1f4'};color:${runState==='done'?'#15803d':'#4b5563'};font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">✓ Done</button>
-        <button onclick="markRunDone('${key}','skipped')" style="flex:1;padding:10px;border-radius:8px;border:2px solid ${runState==='skipped'?'#9ca3af':'#dde0e8'};background:${runState==='skipped'?'#f0f1f4':'#f0f1f4'};color:${runState==='skipped'?'#4b5563':'#9ca3af'};font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">— Skipped</button>
+        <button id="run-btn-done-${key}" onclick="markRunDone('${key}','done')" style="flex:1;padding:10px;border-radius:8px;border:2px solid ${runState==='done'?'#16a34a':'#dde0e8'};background:${runState==='done'?'#dcfce7':'#f0f1f4'};color:${runState==='done'?'#15803d':'#4b5563'};font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">✓ Done</button>
+        <button id="run-btn-skipped-${key}" onclick="markRunDone('${key}','skipped')" style="flex:1;padding:10px;border-radius:8px;border:2px solid ${runState==='skipped'?'#6b7280':'#dde0e8'};background:${runState==='skipped'?'#f3f4f6':'#f0f1f4'};color:${runState==='skipped'?'#374151':'#9ca3af'};font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">— Skipped</button>
       </div>
     </div>
     <div>
@@ -2133,20 +2136,21 @@ function saveRunNote(key, val) {
 function markRunDone(key, state) {
   runDone[key] = state;
   saveRunDone();
+  // update buttons immediately without re-rendering whole page
+  const doneBtn    = document.getElementById('run-btn-done-'    + key);
+  const skipBtn    = document.getElementById('run-btn-skipped-' + key);
+  if (doneBtn) {
+    doneBtn.style.borderColor = state === 'done' ? '#16a34a' : '#dde0e8';
+    doneBtn.style.background  = state === 'done' ? '#dcfce7' : '#f0f1f4';
+    doneBtn.style.color       = state === 'done' ? '#15803d' : '#4b5563';
+  }
+  if (skipBtn) {
+    skipBtn.style.borderColor = state === 'skipped' ? '#6b7280' : '#dde0e8';
+    skipBtn.style.background  = state === 'skipped' ? '#f3f4f6' : '#f0f1f4';
+    skipBtn.style.color       = state === 'skipped' ? '#374151' : '#9ca3af';
+  }
+  // update the cell on the plan grid
   renderPlan();
-  // update buttons in modal
-  const btns = document.querySelectorAll('#modalBody button');
-  btns.forEach(b => {
-    if (b.textContent.trim() === '✓ Done') {
-      b.style.borderColor = state === 'done' ? '#16a34a' : '#dde0e8';
-      b.style.background  = state === 'done' ? '#dcfce7' : '#f0f1f4';
-      b.style.color       = state === 'done' ? '#15803d' : '#4b5563';
-    }
-    if (b.textContent.trim() === '— Skipped') {
-      b.style.borderColor = state === 'skipped' ? '#9ca3af' : '#dde0e8';
-      b.style.color       = state === 'skipped' ? '#4b5563' : '#9ca3af';
-    }
-  });
 }
 
 function closeModal() {
