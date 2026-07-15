@@ -533,7 +533,7 @@
   <div class="header-top">
     <h1>Great South Run 2026</h1>
     <span class="header-badge" style="background:rgba(255,255,255,0.2);color:#fff">Sub 1:20 target</span>
-    <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.4);font-family:monospace;align-self:flex-start;padding-top:2px">v1.13</span>
+    <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.4);font-family:monospace;align-self:flex-start;padding-top:2px">v1.14</span>
   </div>
   <div class="header-meta">
     <span class="pace-chip">Easy <span>9:00/mi</span></span>
@@ -695,7 +695,7 @@ const LEGS_F = [
 ];
 const CORE_F = [
   ex("Dead bug", "3 sets × 8 each side", "https://youtu.be/bxn9FBrt4-A"),
-  ex("Plank", "3 sets × 30 seconds", "https://youtu.be/7Zat7RFY52Y", null, 30),
+  ex("Plank", "3 sets × 30 seconds", "https://youtu.be/ASdvN_XEl_c", null, 30),
   ex("Side plank", "2 sets × 20 seconds each side", "https://youtu.be/iNbH7_edNI8", null, 20),
   ex("Bird dog", "3 sets × 8 each side", "https://youtu.be/ZdAHe9_HeEw"),
   ex("Glute bridge hold", "3 sets × 30 seconds", "https://youtu.be/nuapk_-Q2BI", null, 30),
@@ -722,7 +722,7 @@ const LEGS_B = [
 ];
 const CORE_B = [
   ex("Dead bug", "3 sets × 10 each side", "https://youtu.be/bxn9FBrt4-A"),
-  ex("Plank", "3 sets × 45 seconds", "https://youtu.be/7Zat7RFY52Y", null, 45),
+  ex("Plank", "3 sets × 45 seconds", "https://youtu.be/ASdvN_XEl_c", null, 45),
   ex("Side plank + hip dip", "3 sets × 10 each side", "https://youtu.be/iNbH7_edNI8", null, null),
   ex("Bird dog", "3 sets × 10 each side", "https://youtu.be/ZdAHe9_HeEw"),
   ex("Pallof press", "3 sets × 10 each side", "https://youtu.be/P16SQlmWj1o", "T"),
@@ -749,7 +749,7 @@ const LEGS_P = [
 ];
 const CORE_P = [
   ex("Dead bug (slow)", "3 sets × 10 each side", "https://youtu.be/bxn9FBrt4-A"),
-  ex("Plank", "3 sets × 50 seconds", "https://youtu.be/7Zat7RFY52Y", null, 50),
+  ex("Plank", "3 sets × 50 seconds", "https://youtu.be/ASdvN_XEl_c", null, 50),
   ex("Side plank + hip dip", "3 sets × 12 each side", "https://youtu.be/iNbH7_edNI8", null, null),
   ex("Bear crawl hold", "3 sets × 30 seconds", "https://youtu.be/CILKLy84EDk", null, 30),
   ex("Pallof press", "3 sets × 12 each side", "https://youtu.be/P16SQlmWj1o", "T"),
@@ -776,7 +776,7 @@ const LEGS_FL = [
 ];
 const CORE_FL = [
   ex("Dead bug", "2 sets × 8 each side", "https://youtu.be/bxn9FBrt4-A"),
-  ex("Plank", "2 sets × 30 seconds", "https://youtu.be/7Zat7RFY52Y", null, 30),
+  ex("Plank", "2 sets × 30 seconds", "https://youtu.be/ASdvN_XEl_c", null, 30),
   ex("Side plank", "2 sets × 20 seconds each side", "https://youtu.be/iNbH7_edNI8", null, 20),
   ex("Bird dog", "2 sets × 8 each side", "https://youtu.be/ZdAHe9_HeEw"),
   ex("Sit ups", "2 sets × 10 reps", "https://youtu.be/1fbU_MkV7NE"),
@@ -800,7 +800,7 @@ const LEGS_M = [
 ];
 const CORE_M = [
   ex("Dead bug", "2 sets × 10 each side", "https://youtu.be/bxn9FBrt4-A"),
-  ex("Plank", "2 sets × 45 seconds", "https://youtu.be/7Zat7RFY52Y", null, 45),
+  ex("Plank", "2 sets × 45 seconds", "https://youtu.be/ASdvN_XEl_c", null, 45),
   ex("Side plank", "2 sets × 30 seconds each side", "https://youtu.be/iNbH7_edNI8", null, 30),
   ex("Bird dog", "2 sets × 10 each side", "https://youtu.be/ZdAHe9_HeEw"),
   ex("Sit ups", "3 sets × 12 reps", "https://youtu.be/1fbU_MkV7NE"),
@@ -823,7 +823,7 @@ const LEGS_TAP = [
 ];
 const CORE_TAP = [
   ex("Dead bug", "2 sets × 6 each side", "https://youtu.be/bxn9FBrt4-A"),
-  ex("Plank", "2 sets × 20 seconds", "https://youtu.be/7Zat7RFY52Y", null, 20),
+  ex("Plank", "2 sets × 20 seconds", "https://youtu.be/ASdvN_XEl_c", null, 20),
   ex("Bird dog", "2 sets × 6 each side", "https://youtu.be/ZdAHe9_HeEw"),
   ex("Sit ups", "2 sets × 8 reps", "https://youtu.be/1fbU_MkV7NE"),
   ex("Press ups", "2 sets × 8 reps", "https://youtu.be/IODxDxX7oi4"),
@@ -1470,13 +1470,15 @@ function renderPlan() {
       const cell = document.createElement('div');
       const key = `${week.wk}-${di}`;
       const isDone = completed[key];
+      const isSkipped = isDone === 'skipped';
 
       let cellClass = 'day-cell';
       if (day.type === 'strength') cellClass += ' strength-cell clickable';
       else if (day.type === 'run') cellClass += ' run-cell';
       else if (day.type === 'race') cellClass += ' race-cell';
       else cellClass += ' rest-cell';
-      if (isDone) cellClass += ' completed';
+      if (isDone && !isSkipped) cellClass += ' completed';
+      if (isSkipped) cellClass += ' session-skipped';
 
       const typeLabel = day.type === 'strength' ? `<div class="day-type-label type-strength">Strength</div>`
                       : day.type === 'run'      ? `<div class="day-type-label type-run">Run</div>`
@@ -1498,10 +1500,10 @@ function renderPlan() {
       } else if (day.type === 'run' || day.type === 'race') {
         const runState = runDone[key] || null;
         const paceHtml = day.pace ? `<div class="pace-badge pace-${day.pace}">${day.pace === 'easy' ? 'Easy · 9:00/mi' : day.pace === 'steady' ? 'Steady · 8:00/mi' : day.pace === 'tempo' ? 'Tempo · 7:30/mi' : day.pace === 'mixed' ? 'Mixed paces' : day.pace}</div>` : '';
-        const stateHtml = runState === 'done'    ? '<div style="font-size:9px;color:#16a34a;font-weight:700;margin-top:3px">✓ Done</div>'
-                        : runState === 'skipped' ? '<div style="font-size:9px;color:#9ca3af;font-weight:700;margin-top:3px">— Skipped</div>' : '';
-        preview = `<div class="day-preview" style="white-space:pre-line;font-size:9px;color:var(--text)">${day.text}</div>${paceHtml}${stateHtml}`;
-        if (runState === 'done') cellClass += ' completed';
+        // tick/cross shown via ::after pseudo-element via class
+        if (runState === 'done')    cellClass += ' run-done';
+        if (runState === 'skipped') cellClass += ' run-skipped';
+        preview = `<div class="day-preview" style="white-space:pre-line;font-size:9px;color:var(--text)">${day.text}</div>${paceHtml}`;
       }
 
       cell.className = cellClass;
@@ -1518,6 +1520,10 @@ function renderPlan() {
       } else if (day.type === 'run' && day.detail) {
         cell.style.cursor = 'pointer';
         cell.addEventListener('click', () => openRunModal(week, day, key));
+      } else if (day.type === 'run') {
+        // runs without detail — just tap to cycle done/skipped
+        cell.style.cursor = 'pointer';
+        cell.addEventListener('click', () => cycleRunState(key));
       }
 
       grid.appendChild(cell);
@@ -1545,9 +1551,9 @@ function parseSets(setsStr) {
 }
 
 function fmtTime(sec) {
-  const m = String(Math.floor(sec/60)).padStart(2,'0');
-  const s = String(sec%60).padStart(2,'0');
-  return `${m}:${s}`;
+  const n = parseInt(sec, 10);
+  if (isNaN(n) || n < 0) return '0:30';
+  return `${String(Math.floor(n/60)).padStart(2,'0')}:${String(n%60).padStart(2,'0')}`;
 }
 
 // ── open modal ────────────────────────────────────────────────────────────────
@@ -1663,7 +1669,7 @@ function buildSetRow(exercise, ei, si, totalSets, repDesc) {
 
   // use per-exercise setting if available, fall back to plan default
   const timerSec = exercise.timerSec
-    ? (settings.holdDurations[exercise.name] || exercise.timerSec)
+    ? ((settings.holdDurations && settings.holdDurations[exercise.name]) || exercise.timerSec)
     : null;
   const timerId = `timer-${ei}-${si}`;
   const restId  = `rest-${ei}-${si}`;
@@ -1712,7 +1718,7 @@ function buildSetRow(exercise, ei, si, totalSets, repDesc) {
       <div class="rest-bar" id="${restId}">
         <span class="rest-bar-label">Rest timer</span>
         <div style="display:flex;align-items:center;gap:8px">
-          <span class="rest-bar-display" id="${restId}-display">0:45</span>
+          <span class="rest-bar-display" id="${restId}-display">${fmtTime(parseInt(settings.restDuration,10)||30)}</span>
           <button class="btn btn-ghost btn-sm" onclick="startRestTimer('${ei}','${si}')">Start</button>
         </div>
       </div>
@@ -1765,7 +1771,14 @@ function activateSetRow(ei, si) {
 // ── mark set done ─────────────────────────────────────────────────────────────
 function markSetDone(ei, si) {
   ei = parseInt(ei); si = parseInt(si);
+
+  // stop ALL active rest timers first to prevent double timers
+  Object.keys(activeRestTimers).forEach(k => {
+    clearInterval(activeRestTimers[k]);
+    delete activeRestTimers[k];
+  });
   clearSetTimer(ei, si);
+
   setsDone[ei][si] = true;
 
   const row = document.getElementById(`set-${ei}-${si}`);
@@ -1782,7 +1795,7 @@ function markSetDone(ei, si) {
   const allSetsInExDone = setsDone[ei].every(Boolean);
 
   if (!allSetsInExDone && nextSi < setsDone[ei].length && !setsDone[ei][nextSi]) {
-    // more sets in this exercise — auto-start rest then open next set
+    // more sets — show rest bar and auto-start rest for next set
     setTimeout(() => {
       activateSetRow(ei, nextSi);
       const restBar = document.getElementById(`rest-${ei}-${nextSi}`);
@@ -1792,8 +1805,7 @@ function markSetDone(ei, si) {
       }
     }, 300);
   }
-  // if all sets done, updateExCard handles opening the next exercise
-  // and a between-exercise rest will fire from updateExCard
+  // if all sets done, updateExCard handles between-exercise rest
 }
 
 function undoSet(ei, si) {
@@ -1930,36 +1942,14 @@ function runHoldTimer(ei, si, totalSec) {
       if (display) display.textContent = 'Done!';
       if (btn) { btn.textContent = 'Start timer'; btn.disabled = false; }
       playDoneSound();
+      // show rest bar — rest timer starts when user taps Done ✓
       const rb = document.getElementById(`rest-${ei}-${si}`);
-      if (rb) { rb.classList.add('show'); autoStartRestTimer(ei, si); }
+      if (rb) rb.classList.add('show');
     }
   }, 1000);
 }
 
-function runSetTimer(ei, si, totalSec) {
-  const key = `${ei}-${si}`;
-  if (activeTimers[key]) { clearInterval(activeTimers[key]); delete activeTimers[key]; }
-  let sec = totalSec;
-  const display = document.getElementById(`timer-${ei}-${si}`);
-  const btn = document.getElementById(`timer-${ei}-${si}-btn`);
 
-  activeTimers[key] = setInterval(() => {
-    sec--;
-    if (display) {
-      display.textContent = fmtTime(sec);
-      display.className = 'set-timer-display' + (sec <= 5 && sec > 0 ? ' warning' : sec <= 0 ? ' done-t' : '');
-    }
-    if (sec > 0 && sec <= 5 && true) playCountdownBeep();
-    if (sec <= 0) {
-      clearSetTimer(ei, si);
-      if (display) display.textContent = 'Done!';
-      if (btn) { btn.textContent = 'Start timer'; btn.disabled = false; }
-      if (true) playDoneSound();
-      const restBar = document.getElementById(`rest-${ei}-${si}`);
-      if (restBar) { restBar.classList.add('show'); autoStartRestTimer(ei, si); }
-    }
-  }, 1000);
-}
 
 function resetSetTimer(ei, si, totalSec) {
   clearSetTimer(ei, si);
@@ -1980,8 +1970,9 @@ function startRestTimer(ei, si) {
 
 function autoStartRestTimer(ei, si) {
   const key = `${ei}-${si}`;
+  // clear any existing rest timer for this slot
   if (activeRestTimers[key]) { clearInterval(activeRestTimers[key]); delete activeRestTimers[key]; }
-  let sec = settings.restDuration;
+  let sec = parseInt(settings.restDuration, 10) || 30;
   const display = document.getElementById(`rest-${ei}-${si}-display`);
   const startBtn = document.querySelector(`#rest-${ei}-${si} .btn-ghost`);
   if (display) { display.textContent = fmtTime(sec); }
@@ -2049,6 +2040,15 @@ function finishAndSave() {
     el.textContent = fmtElapsed(getNetElapsed());
   }
   markSessionDone();
+}
+
+function skipStrengthSession() {
+  if (currentKey) {
+    completed[currentKey] = 'skipped';
+    saveCompleted();
+    renderPlan();
+  }
+  closeModal();
 }
 
 function saveSessionProgress() {
@@ -2131,6 +2131,15 @@ try { runNotes = JSON.parse(localStorage.getItem('gsr2026_run_notes') || '{}'); 
 function saveRunNote(key, val) {
   runNotes[key] = val;
   try { localStorage.setItem('gsr2026_run_notes', JSON.stringify(runNotes)); } catch(e) {}
+}
+
+function cycleRunState(key) {
+  const current = runDone[key] || null;
+  const next = current === null ? 'done' : current === 'done' ? 'skipped' : null;
+  if (next === null) delete runDone[key];
+  else runDone[key] = next;
+  saveRunDone();
+  renderPlan();
 }
 
 function markRunDone(key, state) {
