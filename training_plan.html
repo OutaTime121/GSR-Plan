@@ -533,12 +533,12 @@
   <div class="header-top">
     <h1>Great South Run 2026</h1>
     <span class="header-badge" style="background:rgba(255,255,255,0.2);color:#fff">Sub 1:20 target</span>
-    <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.4);font-family:monospace;align-self:flex-start;padding-top:2px">v1.14</span>
+    <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.4);font-family:monospace;align-self:flex-start;padding-top:2px">v1.15</span>
   </div>
   <div class="header-meta">
-    <span class="pace-chip">Easy <span>9:00/mi</span></span>
-    <span class="pace-chip">Steady <span>8:00/mi</span></span>
-    <span class="pace-chip">Tempo <span>7:30/mi</span></span>
+    <span class="pace-chip">Easy <span>9:00/mi · 5:35/km</span></span>
+    <span class="pace-chip">Steady <span>8:00/mi · 4:58/km</span></span>
+    <span class="pace-chip">Tempo <span>7:30/mi · 4:39/km</span></span>
     <span class="pace-chip">Race day <span>18 Oct 2026</span></span>
   </div>
 </header>
@@ -843,17 +843,17 @@ const PLAN = [
       { date:'16 Jul', ...run('6 miles easy','easy','6 miles at easy pace. Should feel conversational — 1 min/mile slower than race pace.') },
       { date:'17 Jul', ...str('Legs + Core', COMBO_F) },
       { date:'18 Jul', ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort. Not a race — use it as a relaxed 5k.') },
-      { date:'19 Jul', ...run('7 miles easy','easy','7 miles at easy pace. Long slow run — keep it comfortable throughout.') },
+      { date:'19 Jul', ...run('7 miles / 11.5km easy','easy','11.5km at easy pace (5:35/km). Long slow run — keep it comfortable.\n\n🕗 Start by 8:55am to reach RWL for 9:32am group finish (final 5km with group).') },
     ]},
   { wk:2,  dates:'20–26 Jul', tag:'foundation', tagLabel:'Foundation', sub:'',
     days:[
       { date:'20 Jul', ...str('Legs', LEGS_F) },
       { date:'21 Jul', ...run('Tempo blocks','steady','2×20 mins at steady pace with 2×2 mins walk/gentle jog in between each 20 min block.') },
       { date:'22 Jul', ...str('Core', CORE_F) },
-      { date:'23 Jul', ...run('7 miles easy','easy','7 miles easy. Possibly away — adapt route as needed. Keep it easy.') },
+      { date:'23 Jul', ...run('7 miles / 11.5km easy','easy','11.5km at easy pace (5:35/km). Possibly away — adapt route as needed.\n\n🕗 Start by 8:55am to reach RWL for 9:32am group finish (final 5km with group).') },
       { date:'24 Jul', ...str('Legs + Core', COMBO_F) },
       { date:'25 Jul', ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
-      { date:'26 Jul', ...run('7 miles easy','easy','7 miles at easy pace.') },
+      { date:'26 Jul', ...run('7 miles / 11.5km easy','easy','11.5km at easy pace (5:35/km).\n\n🕗 Start by 8:55am to reach RWL for 9:32am group finish (final 5km with group).') },
     ]},
   { wk:3,  dates:'27 Jul–2 Aug', tag:'build', tagLabel:'Build', sub:'Lunge with less chair — aim to reduce support each week',
     days:[
@@ -863,7 +863,7 @@ const PLAN = [
       { date:'30 Jul', ...run('5 miles steady','steady','5 miles at steady pace (race pace). Controlled effort — not all out.') },
       { date:'31 Jul', ...str('Legs + Core', COMBO_B) },
       { date:'1 Aug',  ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
-      { date:'2 Aug',  ...run('8 miles easy','easy','8 miles at easy pace. Building the long run distance.') },
+      { date:'2 Aug',  ...run('8 miles / 13km easy','easy','13km at easy pace (5:35/km). Building the long run distance.\n\n🕗 Start by 8:47am to reach RWL for 9:32am group finish (final 5km with group).') },
     ]},
   { wk:4,  dates:'3–9 Aug', tag:'build', tagLabel:'Build', sub:'',
     days:[
@@ -873,7 +873,7 @@ const PLAN = [
       { date:'6 Aug',  ...run('400m reps','tempo','8×400m at tempo pace with 2 min walk/jog recovery between each rep.') },
       { date:'7 Aug',  ...str('Legs + Core', COMBO_B) },
       { date:'8 Aug',  ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
-      { date:'9 Aug',  ...run('8 miles easy','easy','8 miles at easy pace.') },
+      { date:'9 Aug',  ...run('8 miles / 13km easy','easy','13km at easy pace (5:35/km).\n\n🕗 Start by 8:47am to reach RWL for 9:32am group finish (final 5km with group).') },
     ]},
   { wk:5,  dates:'10–16 Aug', tag:'build', tagLabel:'Build', sub:'',
     days:[
@@ -883,7 +883,7 @@ const PLAN = [
       { date:'13 Aug', ...run('6 miles steady','steady','6 miles at steady pace (race pace).') },
       { date:'14 Aug', ...str('Legs + Core', COMBO_B) },
       { date:'15 Aug', ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
-      { date:'16 Aug', ...run('9 miles easy','easy','9 miles at easy pace. Longest run so far.') },
+      { date:'16 Aug', ...run('9 miles / 14.5km easy','easy','14.5km at easy pace (5:35/km). Longest run so far.\n\n🕗 Start by 8:38am to reach RWL for 9:32am group finish (final 5km with group).') },
     ]},
   { wk:6,  dates:'17–23 Aug', tag:'flex', tagLabel:'Flex Week 1', sub:'Recovery — 2 sets not 3, keep it easy',
     days:[
@@ -893,7 +893,7 @@ const PLAN = [
       { date:'20 Aug', ...run('5–7km easy','easy','5–7km very easy run. Recovery week — keep it comfortable.') },
       { date:'21 Aug', ...str('Combo (light)', COMBO_FL) },
       { date:'22 Aug', ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
-      { date:'23 Aug', ...run('8 miles easy','easy','8 miles at easy pace.') },
+      { date:'23 Aug', ...run('8 miles / 13km easy','easy','13km at easy pace (5:35/km).\n\n🕗 Start by 8:47am to reach RWL for 9:32am group finish (final 5km with group).') },
     ]},
   { wk:7,  dates:'24–30 Aug', tag:'peak', tagLabel:'Peak', sub:'Unassisted lunges — if form breaks, use fingertip wall support only',
     days:[
@@ -903,7 +903,7 @@ const PLAN = [
       { date:'27 Aug', ...run('Hill reps','tempo','Hill reps at tempo pace. Find a hill ~200–400m long. Run up at tempo effort, jog back down as recovery. Aim for 6–8 reps.') },
       { date:'28 Aug', ...str('Legs + Core', COMBO_P) },
       { date:'29 Aug', ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
-      { date:'30 Aug', ...run('10 miles easy','easy','10 miles at easy pace. Big milestone run.') },
+      { date:'30 Aug', ...run('10 miles / 16.1km easy','easy','16.1km at easy pace (5:35/km). Big milestone run.\n\n🕗 Start by 8:30am to reach RWL for 9:32am group finish (final 5km with group).') },
     ]},
   { wk:8,  dates:'31 Aug–6 Sep', tag:'flex', tagLabel:'Flex Week 2', sub:'Recovery — 2 sets not 3',
     days:[
@@ -913,7 +913,7 @@ const PLAN = [
       { date:'3 Sep',  ...run('5–7km easy','easy','5–7km very easy run. Keep it easy.') },
       { date:'4 Sep',  ...str('Combo (light)', COMBO_FL) },
       { date:'5 Sep',  ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
-      { date:'6 Sep',  ...run('8 miles easy','easy','8 miles at easy pace.') },
+      { date:'6 Sep',  ...run('8 miles / 13km easy','easy','13km at easy pace (5:35/km).\n\n🕗 Start by 8:47am to reach RWL for 9:32am group finish (final 5km with group).') },
     ]},
   { wk:9,  dates:'7–13 Sep', tag:'peak', tagLabel:'Peak', sub:'',
     days:[
@@ -923,7 +923,7 @@ const PLAN = [
       { date:'10 Sep', ...run('5 miles steady','steady','5 miles at steady pace (race pace).') },
       { date:'11 Sep', ...str('Legs + Core', COMBO_P) },
       { date:'12 Sep', ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
-      { date:'13 Sep', ...run('9 miles easy','easy','9 miles at easy pace.') },
+      { date:'13 Sep', ...run('9 miles / 14.5km easy','easy','14.5km at easy pace (5:35/km).\n\n🕗 Start by 8:38am to reach RWL for 9:32am group finish (final 5km with group).') },
     ]},
   { wk:10, dates:'14–20 Sep', tag:'peak', tagLabel:'Peak', sub:'',
     days:[
@@ -933,7 +933,7 @@ const PLAN = [
       { date:'17 Sep', ...run('400m reps','tempo','8×400m at tempo pace with 2 min walk/jog recovery between each rep.') },
       { date:'18 Sep', ...str('Legs + Core', COMBO_P) },
       { date:'19 Sep', ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
-      { date:'20 Sep', ...run('9 miles easy','easy','9 miles at easy pace.') },
+      { date:'20 Sep', ...run('9 miles / 14.5km easy','easy','14.5km at easy pace (5:35/km).\n\n🕗 Start by 8:38am to reach RWL for 9:32am group finish (final 5km with group).') },
     ]},
   { wk:11, dates:'21–27 Sep', tag:'peak', tagLabel:'Peak', sub:'Longest run of the plan on Sunday — legs should feel strong by now',
     days:[
@@ -943,7 +943,7 @@ const PLAN = [
       { date:'24 Sep', ...run('6 miles steady','steady','6 miles at steady pace.') },
       { date:'25 Sep', ...str('Legs + Core', COMBO_P) },
       { date:'26 Sep', ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
-      { date:'27 Sep', ...run('10+ miles easy','easy','10+ miles at easy pace. The longest run of the plan — take it steady and enjoy it.') },
+      { date:'27 Sep', ...run('10+ miles / 16.1km easy','easy','16.1km at easy pace (5:35/km). Longest run of the plan — take it steady and enjoy it.\n\n🕗 Start by 8:30am to reach RWL for 9:32am group finish (final 5km with group).') },
     ]},
   { wk:12, dates:'28 Sep–4 Oct', tag:'maintain', tagLabel:'Maintain', sub:'Reduce strength volume — priority shifts to running quality',
     days:[
@@ -953,7 +953,7 @@ const PLAN = [
       { date:'1 Oct',  ...run('7 miles steady','steady','7 miles at steady pace.') },
       { date:'2 Oct',  ...str('Combo', COMBO_M) },
       { date:'3 Oct',  ...run('Rest or easy parkrun','easy','Parkrun at easy/comfortable effort.') },
-      { date:'4 Oct',  ...run('8 miles easy','easy','8 miles at easy pace.') },
+      { date:'4 Oct',  ...run('8 miles / 13km easy','easy','13km at easy pace (5:35/km).\n\n🕗 Start by 8:47am to reach RWL for 9:32am group finish (final 5km with group).') },
     ]},
   { wk:13, dates:'5–11 Oct', tag:'taper', tagLabel:'Taper', sub:'Light strength only — no soreness going into race week',
     days:[
@@ -1499,7 +1499,7 @@ function renderPlan() {
         preview = `<ul class="day-preview">${day.exercises.map(e=>`<li>${e.name}</li>`).join('')}</ul>${timeHtml}`;
       } else if (day.type === 'run' || day.type === 'race') {
         const runState = runDone[key] || null;
-        const paceHtml = day.pace ? `<div class="pace-badge pace-${day.pace}">${day.pace === 'easy' ? 'Easy · 9:00/mi' : day.pace === 'steady' ? 'Steady · 8:00/mi' : day.pace === 'tempo' ? 'Tempo · 7:30/mi' : day.pace === 'mixed' ? 'Mixed paces' : day.pace}</div>` : '';
+        const paceHtml = day.pace ? `<div class="pace-badge pace-${day.pace}">${day.pace === 'easy' ? 'Easy · 5:35/km' : day.pace === 'steady' ? 'Steady · 4:58/km' : day.pace === 'tempo' ? 'Tempo · 4:39/km' : day.pace === 'mixed' ? 'Mixed paces' : day.pace}</div>` : '';
         // tick/cross shown via ::after pseudo-element via class
         if (runState === 'done')    cellClass += ' run-done';
         if (runState === 'skipped') cellClass += ' run-skipped';
@@ -2105,9 +2105,9 @@ function openRunModal(week, day, key) {
     <div style="background:#eff6ff;border-radius:10px;padding:14px;border:1px solid #bfdbfe;margin-bottom:14px">
       <div style="font-size:11px;font-weight:700;color:#1d4ed8;margin-bottom:8px;letter-spacing:0.5px;text-transform:uppercase">Pace reference</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center">
-        <div style="background:#dcfce7;border-radius:7px;padding:8px;"><div style="font-size:10px;color:#15803d;font-weight:700">EASY</div><div style="font-size:14px;font-weight:700;color:#15803d">9:00/mi</div><div style="font-size:9px;color:#15803d">5:35/km</div></div>
-        <div style="background:#dbeafe;border-radius:7px;padding:8px;"><div style="font-size:10px;color:#1d4ed8;font-weight:700">STEADY</div><div style="font-size:14px;font-weight:700;color:#1d4ed8">8:00/mi</div><div style="font-size:9px;color:#1d4ed8">4:58/km</div></div>
-        <div style="background:#fee2e2;border-radius:7px;padding:8px;"><div style="font-size:10px;color:#991b1b;font-weight:700">TEMPO</div><div style="font-size:14px;font-weight:700;color:#991b1b">7:30/mi</div><div style="font-size:9px;color:#991b1b">4:39/km</div></div>
+        <div style="background:#dcfce7;border-radius:7px;padding:8px;"><div style="font-size:10px;color:#15803d;font-weight:700">EASY</div><div style="font-size:13px;font-weight:700;color:#15803d">9:00/mi</div><div style="font-size:11px;font-weight:700;color:#15803d">5:35/km</div></div>
+        <div style="background:#dbeafe;border-radius:7px;padding:8px;"><div style="font-size:10px;color:#1d4ed8;font-weight:700">STEADY</div><div style="font-size:13px;font-weight:700;color:#1d4ed8">8:00/mi</div><div style="font-size:11px;font-weight:700;color:#1d4ed8">4:58/km</div></div>
+        <div style="background:#fee2e2;border-radius:7px;padding:8px;"><div style="font-size:10px;color:#991b1b;font-weight:700">TEMPO</div><div style="font-size:13px;font-weight:700;color:#991b1b">7:30/mi</div><div style="font-size:11px;font-weight:700;color:#991b1b">4:39/km</div></div>
       </div>
     </div>
     <div style="margin-bottom:14px">
