@@ -256,13 +256,24 @@
   }
 
   /* completed indicator */
-  .day-cell.completed::after {
+  .day-cell.completed::after,
+  .day-cell.run-done::after {
     content: '✓';
     position: absolute;
     top: 6px;
     right: 6px;
     font-size: 11px;
     color: var(--green);
+    font-weight: 900;
+  }
+  .day-cell.run-skipped::after,
+  .day-cell.session-skipped::after {
+    content: '✗';
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    font-size: 11px;
+    color: var(--text3);
     font-weight: 900;
   }
 
@@ -533,7 +544,7 @@
   <div class="header-top">
     <h1>Great South Run 2026</h1>
     <span class="header-badge" style="background:rgba(255,255,255,0.2);color:#fff">Sub 1:20 target</span>
-    <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.4);font-family:monospace;align-self:flex-start;padding-top:2px">v1.15</span>
+    <span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,0.4);font-family:monospace;align-self:flex-start;padding-top:2px">v1.16</span>
   </div>
   <div class="header-meta">
     <span class="pace-chip">Easy <span>9:00/mi · 5:35/km</span></span>
